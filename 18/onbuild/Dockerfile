@@ -1,0 +1,1 @@
+FROM erlang:18
