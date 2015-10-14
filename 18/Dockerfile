@@ -1,12 +1,12 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION 18.1
+ENV OTP_VERSION 18.1.2
 
 ENV LANG C.UTF-8
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL=https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz \
-	&& OTP_DOWNLOAD_SHA1=d835158e478b32c0fd807540b507300e2b5f9b78 \
+	&& OTP_DOWNLOAD_SHA1=eb457a857bd43bc0ede95bdddb3e4f3593ab7376 \
 	&& curl -SL $OTP_DOWNLOAD_URL -o otp-src.tar.gz \
 	&& echo "$OTP_DOWNLOAD_SHA1  otp-src.tar.gz" | sha1sum -c - \
 	&& mkdir -p /usr/src/otp-src \
