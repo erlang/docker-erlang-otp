@@ -1,15 +1,33 @@
-FROM buildpack-deps:jessie
+FROM debian:jessie
 
-ENV OTP_VERSION 18.1.3
-ENV OTP_DOWNLOAD_SHA1 981e6c03c0a310483e6c14edb7dd2acaa842e2f8
+ENV OTP_VERSION 17.5.6.4
+ENV OTP_DOWNLOAD_SHA1 8436bbc750dc90580842e907f911255228d2d070
 ENV LANG C.UTF-8
 
-# We'll install the build dependencies for erlang-odbc along with the erlang
-# build process:
-RUN buildDeps='unixodbc-dev' \
+# We'll install the build dependencies, and purge them on the last step to make
+# sure our final image contains only what we've just built:
+RUN buildDeps=' \
+		autoconf \
+		bison \
+		ca-certificates \
+		curl \
+		gcc \
+		g++ \
+		libbz2-dev \
+		libgdbm-dev \
+		libglib2.0-dev \
+		libncurses-dev \
+		libreadline-dev \
+		libssl-dev \
+		libxml2-dev \
+		libxslt-dev \
+		unixodbc-dev \
+		make \
+	' \
 	&& set -xe \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $buildDeps \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p /usr/src/otp-src \
 	&& curl -fSL -o otp-src.tar.gz "https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
 	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
