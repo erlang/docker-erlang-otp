@@ -4,12 +4,12 @@ ENV OTP_VERSION 17.5.6.4
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
-RUN buildDeps='unixodbc-dev' \
-	&& set -xe \
+RUN set -xe \
+	&& OTP_DOWNLOAD_SHA1=8436bbc750dc90580842e907f911255228d2d070 \
+	&& buildDeps='unixodbc-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $buildDeps \
 	&& mkdir -p /usr/src/otp-src \
-	&& OTP_DOWNLOAD_SHA1=8436bbc750dc90580842e907f911255228d2d070 \
 	&& curl -fSL -o otp-src.tar.gz "https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
 	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
 	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
