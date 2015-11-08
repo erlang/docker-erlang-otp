@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ENV OTP_VERSION 17.5.6.4
+ENV OTP_VERSION=17.5.6.4 LANG=C.UTF-8
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
@@ -38,7 +38,7 @@ RUN set -xe \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples |xargs rm -rf \
-	&& rm -rf /usr/src/otp-src \
-	&& apt-get purge -y --auto-remove $buildDeps
+	&& apt-get purge -y --auto-remove $buildDeps \
+	&& rm -rf /usr/src/otp-src /var/lib/apt/lists/*
 
 CMD ["erl"]
