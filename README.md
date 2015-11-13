@@ -17,10 +17,10 @@ The goal is to provide images for a few last erlang releases (currently 18 / 17)
 
 ```console
 $ docker images |grep ^erlang
-erlang     18.1        05a80e15fadc   2 hours ago   742.9 MB
-erlang     18.1-slim   fc08749128b9   2 hours ago   283.6 MB
-erlang     17.5        7a34c8030ca7   2 hours ago   739.8 MB
-erlang     17.5-slim   e4003d4f37e6   2 hours ago   280.7 MB
+erlang     18.1-slim   0d2ef515fa92   21 minutes ago   283.6 MB
+erlang     18.1        57cd51bedc4b   35 minutes ago   742.9 MB
+erlang     17.5        7a34c8030ca7   2 hours ago      739.8 MB
+erlang     17.5-slim   e4003d4f37e6   2 hours ago      280.7 MB
 ```
 
 ### Running
@@ -54,6 +54,12 @@ cosTransactions-1.3  hipe-3.13          percept-0.8.11       webtool-0.9
 crypto-3.6.1         ic-4.4             public_key-1.0.1     wx-1.5
 debugger-4.1.1       inets-6.0.2        reltool-0.7          xmerl-1.3.8
 dialyzer-2.8.1       kernel-4.1         runtime_tools-1.9.1
+```
+
+The official release https://github.com/erlang/otp/tree/maint/lib has 52 libs, while here by default it provided 51 of them, except jinterface, because to build that one would pull all jdk dependencies and make this image too fat, it's just avoided here; if you really need that to write code in java and interface into erlang code, you may create an issue for this project.
+
+```
 root@88f845c8c7af:/# ls /usr/local/lib/erlang/lib/ |wc -l
 51
 ```
+

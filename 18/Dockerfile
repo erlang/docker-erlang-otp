@@ -1,11 +1,11 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION=18.1.3 LANG=C.UTF-8
+ENV OTP_VERSION=18.1.4 LANG=C.UTF-8
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
-	&& OTP_DOWNLOAD_SHA1=981e6c03c0a310483e6c14edb7dd2acaa842e2f8 \
+	&& OTP_DOWNLOAD_SHA1=f219654d7c0f67a5017818bdf46943bced307bbd \
 	&& buildDeps='unixodbc-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $buildDeps \
@@ -39,3 +39,11 @@ RUN set -xe \
 	&& ./bootstrap \
 	&& install -v ./rebar /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar-src
+
+ENV REBAR3_VERSION=3.0.0-beta.4
+
+RUN set -xe \
+	&& git clone --depth 50 --branch $REBAR3_VERSION --single-branch git://github.com/rebar/rebar3.git /usr/src/rebar3-src \
+	&& cd /usr/src/rebar3-src \
+	&& HOME=$PWD ./bootstrap \
+	&& install -v ./rebar3 /usr/local/bin/
