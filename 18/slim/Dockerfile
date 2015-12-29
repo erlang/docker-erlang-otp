@@ -1,11 +1,11 @@
 FROM debian:jessie
 
-ENV OTP_VERSION=18.1.5 LANG=C.UTF-8
+ENV OTP_VERSION=18.2.1
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
-	&& OTP_DOWNLOAD_SHA1=4972f298f80688b1f3bba84edf1576b00f7f6df2 \
+	&& OTP_DOWNLOAD_SHA1=e6d6d39b5e022f9cb25d3096080f9af40a70ae49 \
 	&& buildDeps=' \
 		autoconf \
 		bison \
