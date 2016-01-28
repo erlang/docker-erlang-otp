@@ -46,4 +46,5 @@ RUN set -xe \
 	&& git clone --depth 50 --branch $REBAR3_VERSION --single-branch git://github.com/rebar/rebar3.git /usr/src/rebar3-src \
 	&& cd /usr/src/rebar3-src \
 	&& HOME=$PWD ./bootstrap \
-	&& install -v ./rebar3 /usr/local/bin/
+	&& install -v ./rebar3 /usr/local/bin/ \
+	&& rm -rf /usr/src/rebar3-src
