@@ -5,30 +5,29 @@ ENV OTP_VERSION=17.5.6.8
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
-	&& OTP_DOWNLOAD_SHA1=6ac61061519572aeec01e307dc7960e0fe5e7daf \
+	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
+	&& OTP_DOWNLOAD_SHA1="6ac61061519572aeec01e307dc7960e0fe5e7daf" \
+	&& runtimeDeps=' \
+		libodbc1 \
+		libssl1.0.0 \
+	' \
 	&& buildDeps=' \
-		autoconf \
-		bison \
-		ca-certificates \
 		curl \
+		ca-certificates \
+		autoconf \
 		gcc \
 		g++ \
-		libbz2-dev \
-		libgdbm-dev \
-		libglib2.0-dev \
-		libncurses-dev \
-		libreadline-dev \
-		libssl-dev \
-		libxml2-dev \
-		libxslt-dev \
-		unixodbc-dev \
 		make \
+		libncurses-dev \
+		unixodbc-dev \
+		libssl-dev \
 	' \
 	&& apt-get update \
+	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir -p /usr/src/otp-src \
-	&& curl -fSL -o otp-src.tar.gz "https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
+	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
 	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
 	&& rm otp-src.tar.gz \

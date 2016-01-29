@@ -1,42 +1,31 @@
-FROM debian:jessie
+
+#FROM buildpack-deps:x32
+#FROM gentoo-x32
+FROM buildpack-deps-x32:jessie
 
 ENV OTP_VERSION=18.2.3
 
-# We'll install the build dependencies, and purge them on the last step to make
-# sure our final image contains only what we've just built:
+# We'll install the build dependencies for erlang-odbc along with the erlang
+# build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
 	&& OTP_DOWNLOAD_SHA1="3c530cc8b72a0a5760ab61cd001041eea3de589b" \
-	&& runtimeDeps=' \
-		libodbc1 \
-		libssl1.0.0 \
-	' \
-	&& buildDeps=' \
-		curl \
-		ca-certificates \
-		autoconf \
-		gcc \
-		g++ \
-		make \
-		libncurses-dev \
-		unixodbc-dev \
-		libssl-dev \
-	' \
+	&& OTP_X32_PATCH="https://github.com/erlang/otp/commit/f7987aa9b.patch" \
+	&& buildDeps='unixodbc-dev' \
 	&& apt-get update \
-	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
-	&& mkdir -p /usr/src/otp-src \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
+	&& mkdir -p /usr/src/otp-src \
 	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
+	&& curl -fSL $OTP_X32_PATCH | patch -p1 \
 	&& ./otp_build autoconf \
 	&& ./configure \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples |xargs rm -rf \
-	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/otp-src /var/lib/apt/lists/*
 
 CMD ["erl"]

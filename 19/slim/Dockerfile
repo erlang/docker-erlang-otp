@@ -1,32 +1,34 @@
 FROM debian:jessie
 
-ENV OTP_VERSION=18.2.3
+ENV OTP_VERSION="19.0-rc0@e038cbe"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
-	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
-	&& OTP_DOWNLOAD_SHA1="3c530cc8b72a0a5760ab61cd001041eea3de589b" \
-	&& runtimeDeps=' \
-		libodbc1 \
-		libssl1.0.0 \
-	' \
+	&& OTP_DOWNLOAD_SHA1=a29ac533c61da305eb8f3e96118b40e20a524cd7 \
 	&& buildDeps=' \
-		curl \
-		ca-certificates \
 		autoconf \
+		bison \
+		ca-certificates \
+		curl \
 		gcc \
 		g++ \
-		make \
+		libbz2-dev \
+		libgdbm-dev \
+		libglib2.0-dev \
 		libncurses-dev \
-		unixodbc-dev \
+		libodbc1 \
+		libreadline-dev \
 		libssl-dev \
+		libxml2-dev \
+		libxslt-dev \
+		unixodbc-dev \
+		make \
 	' \
 	&& apt-get update \
-	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
 	&& mkdir -p /usr/src/otp-src \
-	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
+	&& curl -fSL -o otp-src.tar.gz "https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
 	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
 	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
 	&& rm otp-src.tar.gz \
