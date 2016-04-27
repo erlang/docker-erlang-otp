@@ -1,17 +1,20 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION="19.0-rc0@e038cbe"
+ENV OTP_VERSION="19.0-rc0@75fa857"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
-	&& OTP_DOWNLOAD_SHA1=a29ac533c61da305eb8f3e96118b40e20a524cd7 \
+	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
+	&& OTP_DOWNLOAD_SHA256="3341fc98575e5930222c58e7310867452066d9efa80802c7ff9fc4535fbc0459" \
+	&& runtimeDeps='libodbc1' \
 	&& buildDeps='unixodbc-dev' \
 	&& apt-get update \
+	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
+	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
+	&& echo "$OTP_DOWNLOAD_SHA256 otp-src.tar.gz" | sha256sum -c - \
 	&& mkdir -p /usr/src/otp-src \
-	&& curl -fSL -o otp-src.tar.gz "https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
-	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
 	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
@@ -26,13 +29,14 @@ RUN set -xe \
 CMD ["erl"]
 
 # extra useful tools here
-ENV REBAR_VERSION=2.6.1
+ENV REBAR_VERSION="2.6.1"
 
 RUN set -xe \
-	&& REBAR_DOWNLOAD_SHA1=7f9b799c5dfa06d1779d828c767be2732dacc411 \
+	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION##*@}.tar.gz" \
+	&& REBAR_DOWNLOAD_SHA256="aed933d4e60c4f11e0771ccdb4434cccdb9a71cf8b1363d17aaf863988b3ff60" \
 	&& mkdir -p /usr/src/rebar-src \
-	&& curl -fSL -o rebar-src.tar.gz "https://github.com/rebar/rebar/archive/$REBAR_VERSION.tar.gz" \
-	&& echo "$REBAR_DOWNLOAD_SHA1 rebar-src.tar.gz" | sha1sum -c - \
+	&& curl -fSL -o rebar-src.tar.gz "$REBAR_DOWNLOAD_URL" \
+	&& echo "$REBAR_DOWNLOAD_SHA256 rebar-src.tar.gz" | sha256sum -c - \
 	&& tar -xzf rebar-src.tar.gz -C /usr/src/rebar-src --strip-components=1 \
 	&& rm rebar-src.tar.gz \
 	&& cd /usr/src/rebar-src \
@@ -41,11 +45,18 @@ RUN set -xe \
 	&& rm -rf /usr/src/rebar-src
 
 # Rebar3 compile failed with Erlang-19; comment out so far
-# ENV REBAR3_VERSION=3.0.0-beta.4
 
-# RUN set -xe \
-#	&& git clone --depth 50 --branch $REBAR3_VERSION --single-branch git://github.com/rebar/rebar3.git /usr/src/rebar3-src \
-#	&& cd /usr/src/rebar3-src \
-#	&& HOME=$PWD ./bootstrap \
-#	&& install -v ./rebar3 /usr/local/bin/ \
-#	&& rm -rf /usr/src/rebar3-src
+ENV REBAR3_VERSION="3.1.0"
+
+RUN set -xe \
+	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION##*@}.tar.gz" \
+	&& REBAR3_DOWNLOAD_SHA256="b426cf7829d5df0d6d3e50cd501a1688bdbc878b0ca69d63240a0614afbd9c64" \
+	&& mkdir -p /usr/src/rebar3-src \
+	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
+	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
+	&& tar -xzf rebar3-src.tar.gz -C /usr/src/rebar3-src --strip-components=1 \
+	&& rm rebar3-src.tar.gz \
+	&& cd /usr/src/rebar3-src \
+	&& HOME=$PWD ./bootstrap || { echo rebar3 bootstrap failed; true; } \
+	&& install -v ./rebar3 /usr/local/bin/ || true \
+	&& rm -rf /usr/src/rebar3-src
