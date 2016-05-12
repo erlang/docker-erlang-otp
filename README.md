@@ -9,6 +9,35 @@
 This is used as docker base image for Erlang OTP.
 The goal is to provide images for a few last erlang releases (currently 19 / 18 / 17), in close to full feature Erlang OTP, and relatively slim images. Support to R16 and R15 are provided in this repo on a best-effort basis, and not part of official-image effort in docker-library/official-images#1075 .
 
+### use the Erlang 19
+
+here is providing a latest Erlang 19-rc1 image, but since master branch is moving fast, official release will be in June 2016; here is not going to push to official-images but you can clone this project and build it locally:
+
+```console
+$ docker build -t erlang:19.0-rc1 19/
+[...]
+➸ docker run -it --rm erlang:19.0-rc1
+Erlang/OTP 19 [erts-8.0] [source] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+
+Eshell V8.0  (abort with ^G)
+1> erlang:system_info(otp_release).
+"19"
+2> uptime().
+6 seconds
+ok
+3> os:getenv().
+["PWD=/","REBAR3_VERSION=3.1.0",
+"ROOTDIR=/usr/local/lib/erlang",
+"PATH=/usr/local/lib/erlang/erts-8.0/bin:/usr/local/lib/erlang/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+"REBAR_VERSION=2.6.1","TERM=xterm",
+"BINDIR=/usr/local/lib/erlang/erts-8.0/bin","PROGNAME=erl",
+"EMU=beam","OTP_VERSION=OTP-19.0-rc1","HOME=/root",
+"HOSTNAME=33697c67c7b0"]
+4>
+```
+
+Read the release annoucement http://erlang.org/pipermail/erlang-questions/2016-May/089185.html
+
 ### Design
 
 1. the standard variant `erlang:18`, `erlang:17`, builds from source code,
