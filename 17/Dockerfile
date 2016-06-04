@@ -19,7 +19,7 @@ RUN set -xe \
 	&& ./configure \
 	&& make -j$(nproc) \
 	&& make install \
-	&& find /usr/local -name examples |xargs rm -rf \
+	&& find /usr/local -name examples | xargs rm -rf \
 	&& rm -rf /usr/src/otp-src /var/lib/apt/lists/*
 
 CMD ["erl"]

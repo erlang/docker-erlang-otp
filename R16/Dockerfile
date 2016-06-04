@@ -16,7 +16,7 @@ RUN set -xe \
 	&& ./configure \
 	&& make -j$(nproc) \
 	&& make install \
-	&& find /usr/local -name examples |xargs rm -rf \
+	&& find /usr/local -name examples | xargs rm -rf \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf /usr/src/otp-src /var/lib/apt/lists/*
 
