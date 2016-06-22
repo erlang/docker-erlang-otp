@@ -1,6 +1,6 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION=17.5.6.9
+ENV OTP_VERSION="17.5.6.9"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:

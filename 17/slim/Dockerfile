@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ENV OTP_VERSION=17.5.6.9
+ENV OTP_VERSION="17.5.6.9"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:

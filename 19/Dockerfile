@@ -1,11 +1,11 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION="OTP-19.0"
+ENV OTP_VERSION="19.0"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
-	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
+	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
 	&& OTP_DOWNLOAD_SHA256="107b629aa7aea1bf76df0197629a50ce4fea61143ebb0e9a1b633b1fbaf9beb7" \
 	&& runtimeDeps='libodbc1' \
 	&& buildDeps='unixodbc-dev' \
@@ -33,7 +33,7 @@ CMD ["erl"]
 ENV REBAR_VERSION="2.6.1"
 
 RUN set -xe \
-	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION##*@}.tar.gz" \
+	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION}.tar.gz" \
 	&& REBAR_DOWNLOAD_SHA256="aed933d4e60c4f11e0771ccdb4434cccdb9a71cf8b1363d17aaf863988b3ff60" \
 	&& mkdir -p /usr/src/rebar-src \
 	&& curl -fSL -o rebar-src.tar.gz "$REBAR_DOWNLOAD_URL" \
@@ -48,7 +48,7 @@ RUN set -xe \
 ENV REBAR3_VERSION="3.2.0"
 
 RUN set -xe \
-	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION##*@}.tar.gz" \
+	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
 	&& REBAR3_DOWNLOAD_SHA256="78ad27372eea6e215790e161ae46f451c107a58a019cc7fb4551487903516455" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
