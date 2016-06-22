@@ -3,10 +3,10 @@
 #FROM gentoo-x32
 FROM buildpack-deps-x32:jessie
 
-ENV OTP_VERSION="19.0-rc0@e038cbe"
+ENV OTP_VERSION="OTP-19.0"
 
 RUN set -xe \
-	&& OTP_DOWNLOAD_SHA1=a29ac533c61da305eb8f3e96118b40e20a524cd7 \
+	&& OTP_DOWNLOAD_SHA1=a5d3d82f8de25969094376eb40bac106b99f0dde \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
 	&& curl -fSL -o otp-src.tar.gz $OTP_DOWNLOAD_URL \
 	&& echo "$OTP_DOWNLOAD_SHA1  otp-src.tar.gz" | sha1sum -c - \
