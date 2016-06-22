@@ -1,12 +1,12 @@
 FROM debian:jessie
 
-ENV OTP_VERSION=17.5.6.8
+ENV OTP_VERSION=17.5.6.9
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
-	&& OTP_DOWNLOAD_SHA1="6ac61061519572aeec01e307dc7960e0fe5e7daf" \
+	&& OTP_DOWNLOAD_SHA256="387c612d1bc5ffbc68db7d05c3655804b310facc8bad921a3e0f3391970bc522" \
 	&& runtimeDeps=' \
 		libodbc1 \
 		libssl1.0.0 \
@@ -16,7 +16,6 @@ RUN set -xe \
 		ca-certificates \
 		autoconf \
 		gcc \
-		g++ \
 		make \
 		libncurses-dev \
 		unixodbc-dev \
@@ -25,10 +24,9 @@ RUN set -xe \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& mkdir -p /usr/src/otp-src \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
-	&& echo "$OTP_DOWNLOAD_SHA1 otp-src.tar.gz" | sha1sum -c - \
+	&& echo "$OTP_DOWNLOAD_SHA256 otp-src.tar.gz" | sha256sum -c - \
+	&& mkdir -p /usr/src/otp-src \
 	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
