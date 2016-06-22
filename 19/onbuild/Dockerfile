@@ -1,4 +1,4 @@
-FROM erlang:19.0-rc2
+FROM erlang:19.0
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
