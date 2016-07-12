@@ -10,6 +10,7 @@ RUN set -xe \
 	&& runtimeDeps=' \
 		libodbc1 \
 		libssl1.0.0 \
+		libsctp1 \
 	' \
 	&& buildDeps=' \
 		curl \
@@ -20,6 +21,7 @@ RUN set -xe \
 		libncurses-dev \
 		unixodbc-dev \
 		libssl-dev \
+		libsctp-dev \
 	' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
@@ -31,7 +33,7 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
 	&& ./otp_build autoconf \
-	&& ./configure \
+	&& ./configure --enable-sctp \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples | xargs rm -rf \

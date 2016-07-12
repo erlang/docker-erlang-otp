@@ -7,8 +7,10 @@ ENV OTP_VERSION="19.0"
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
 	&& OTP_DOWNLOAD_SHA256="107b629aa7aea1bf76df0197629a50ce4fea61143ebb0e9a1b633b1fbaf9beb7" \
-	&& runtimeDeps='libodbc1' \
-	&& buildDeps='unixodbc-dev' \
+	&& runtimeDeps='libodbc1 \
+			libsctp1' \
+	&& buildDeps='unixodbc-dev \
+			libsctp-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
@@ -19,7 +21,7 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
 	&& ./otp_build autoconf \
-	&& ./configure \
+	&& ./configure --enable-sctp \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples | xargs rm -rf \
