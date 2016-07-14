@@ -1,15 +1,16 @@
 FROM debian:jessie
 
-ENV OTP_VERSION="18.3.4"
+ENV OTP_VERSION="18.3.4.1"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="d9e68a8cdef4db0935b02d4b163cf3af403405f756488874736298cf48b90ae9" \
+	&& OTP_DOWNLOAD_SHA256="3b9852083f3e5cf0668757af76833547233b8e67f4c28b51a6f49d4625bb23de" \
 	&& runtimeDeps=' \
 		libodbc1 \
 		libssl1.0.0 \
+		libsctp1 \
 	' \
 	&& buildDeps=' \
 		curl \
@@ -20,6 +21,7 @@ RUN set -xe \
 		libncurses-dev \
 		unixodbc-dev \
 		libssl-dev \
+		libsctp-dev \
 	' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
@@ -31,7 +33,7 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
 	&& ./otp_build autoconf \
-	&& ./configure \
+	&& ./configure --enable-sctp \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples | xargs rm -rf \
