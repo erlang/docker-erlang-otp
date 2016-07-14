@@ -35,6 +35,16 @@ join() {
 	echo "${out#$sep}"
 }
 
+extractVersion() {
+  awk '
+        $1 == "ENV" && /_VERSION/ {
+        match($2, /"(.*)"/)
+        print substr($2, RSTART + 1, RLENGTH - 2)
+        exit
+      }'
+
+}
+
 self="${BASH_SOURCE##*/}"
 
 cat <<-EOH
@@ -47,19 +57,19 @@ EOH
 for version in "${versions[@]}"; do
 	commit="$(dirCommit "$version")"
 
-	fullVersion="$(git show "$commit":"$version/Dockerfile" | awk '$1 == "ENV" { match($2, /OTP_VERSION="([0-9\.]+)"/, arr); print arr[1]; exit; }')"
+	fullVersion="$(git show "$commit":"$version/Dockerfile" | extractVersion)"
 
 	versionAliases=( $fullVersion )
 	while :; do
 		localVersion="${fullVersion%.*}"
-		if [ "$localVersion" = "$fullVersion" ]; then
+		if [ "$localVersion" = "$version" ]; then
 			break
 		fi
 		versionAliases+=( $localVersion )
 		fullVersion=$localVersion
 		# echo "${versionAliases[@]}"
 	done
-	versionAliases+=( ${aliases[$version]:-} )
+	versionAliases+=( $version ${aliases[$version]:-} )
 
 	echo
 	cat <<-EOE
