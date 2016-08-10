@@ -1,1 +1,0 @@
-FROM erlang:17
