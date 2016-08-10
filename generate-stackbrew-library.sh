@@ -50,7 +50,7 @@ self="${BASH_SOURCE##*/}"
 cat <<-EOH
 # this file is generated via https://github.com/c0b/docker-erlang-otp/blob/$(fileCommit "$self")/$self
 
-Maintainers: denc716@gmail.com (@c0b)
+Maintainers: Mr C0B <denc716@gmail.com> (@c0b)
 GitRepo: https://github.com/c0b/docker-erlang-otp.git
 EOH
 
