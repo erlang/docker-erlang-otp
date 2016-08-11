@@ -2,6 +2,7 @@ language: bash
 services: docker
 
 env:
+  - VERSION=20 VARIANT=
   - VERSION=19 VARIANT=
   - VERSION=19 VARIANT=slim
   - VERSION=18 VARIANT=
