@@ -32,11 +32,11 @@ CMD ["erl"]
 
 # extra useful tools here: rebar & rebar3
 
-ENV REBAR_VERSION="2.6.2"
+ENV REBAR_VERSION="2.6.4"
 
 RUN set -xe \
 	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION##*@}.tar.gz" \
-	&& REBAR_DOWNLOAD_SHA256="ed2a49300f2f8ae7c95284e53e95dd85430952d2843ce224a17db2b312964400" \
+	&& REBAR_DOWNLOAD_SHA256="577246bafa2eb2b2c3f1d0c157408650446884555bf87901508ce71d5cc0bd07" \
 	&& mkdir -p /usr/src/rebar-src \
 	&& curl -fSL -o rebar-src.tar.gz "$REBAR_DOWNLOAD_URL" \
 	&& echo "$REBAR_DOWNLOAD_SHA256 rebar-src.tar.gz" | sha256sum -c - \
@@ -47,11 +47,11 @@ RUN set -xe \
 	&& install -v ./rebar /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar-src
 
-ENV REBAR3_VERSION="3.2.0"
+ENV REBAR3_VERSION="3.3.0"
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION##*@}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="78ad27372eea6e215790e161ae46f451c107a58a019cc7fb4551487903516455" \
+	&& REBAR3_DOWNLOAD_SHA256="9bafcaccd363eaa35fb8de51ea1e9baf6181569f2f29a1e9fdffbb0469b1b505" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
