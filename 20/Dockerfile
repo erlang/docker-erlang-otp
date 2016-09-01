@@ -1,12 +1,12 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION="20.0-rc0@69c2705"
+ENV OTP_VERSION="20.0-rc0@18d398f"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="5c020212418977440ff52117a7c5ef9d738c1d36e64ceb97e6e98aa7c7917430" \
+	&& OTP_DOWNLOAD_SHA256="1fbc60483f95947d0194fa6eb78984b5bfdb6f75c577f84e41cb5e7dbe724e44" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1' \
 	&& buildDeps='unixodbc-dev \
