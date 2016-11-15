@@ -1,12 +1,12 @@
 FROM buildpack-deps:jessie
 
-ENV OTP_VERSION="20.0-rc0@7cd91bb"
+ENV OTP_VERSION="20.0-rc0@cd48b81"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION##*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="4efabad8172162616b2de2d27cf938bb1be2edc8950179052dca351b2f7dbedd" \
+	&& OTP_DOWNLOAD_SHA256="e9aad78742359fca12c20eaf9d90ba566dda96673506d7a0f2f2b67db47e3be0" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1' \
 	&& buildDeps='unixodbc-dev \
@@ -16,17 +16,20 @@ RUN set -xe \
 	&& apt-get install -y --no-install-recommends $buildDeps \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA256 otp-src.tar.gz" | sha256sum -c - \
-	&& mkdir -p /usr/src/otp-src \
-	&& tar -xzf otp-src.tar.gz -C /usr/src/otp-src --strip-components=1 \
+	&& export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%%@*}" \
+	&& mkdir -vp $ERL_TOP \
+	&& tar -f otp-src.tar.gz -C $ERL_TOP --strip-components=1 -zxvv \
 	&& rm otp-src.tar.gz \
-	&& cd /usr/src/otp-src \
+	&& cd $ERL_TOP \
 	&& ./otp_build autoconf \
-	&& ./configure --enable-sctp \
+	&& ./configure \
+		--enable-sctp \
+		--enable-dirty-schedulers \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples | xargs rm -rf \
 	&& apt-get purge -y --auto-remove $buildDeps \
-	&& rm -rf /usr/src/otp-src /var/lib/apt/lists/*
+	&& rm -rf $ERL_TOP /var/lib/apt/lists/*
 
 CMD ["erl"]
 
@@ -47,11 +50,11 @@ RUN set -xe \
 	&& install -v ./rebar /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar-src
 
-ENV REBAR3_VERSION="3.3.1"
+ENV REBAR3_VERSION="3.3.2"
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="1042ffc90a723f57b9d5a6e3858c33e9c5230fe9ef0c51fafd6ce63618b4afe9" \
+	&& REBAR3_DOWNLOAD_SHA256="ccbc27355727090b1fdde7497ab2485c3509e2fd14b48a93276b285b5760d092" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
