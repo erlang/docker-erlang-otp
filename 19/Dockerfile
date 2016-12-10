@@ -8,9 +8,11 @@ RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
 	&& OTP_DOWNLOAD_SHA256="8fbe222233e14bffee40214641a44d0faef5457040e7ce5a85c3b9ce5f895777" \
 	&& runtimeDeps='libodbc1 \
-			libsctp1' \
+			libsctp1 \
+			libwxgtk3.0-0' \
 	&& buildDeps='unixodbc-dev \
-			libsctp-dev' \
+			libsctp-dev \
+			libwxgtk3.0-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
@@ -21,7 +23,9 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
 	&& ./otp_build autoconf \
-	&& ./configure --enable-sctp \
+	&& ./configure \
+		--enable-sctp \
+		--enable-dirty-schedulers \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples | xargs rm -rf \
