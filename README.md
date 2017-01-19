@@ -1,4 +1,6 @@
-# About this Repo
+# The Official Erlang OTP images
+
+[![dockeri.co](http://dockeri.co/image/_/erlang)](https://hub.docker.com/_/erlang/)
 
 [![Docker Stars](https://img.shields.io/docker/stars/_/erlang.svg?style=flat-square)](https://hub.docker.com/_/erlang/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/_/erlang.svg?style=flat-square)](https://hub.docker.com/_/erlang/)
@@ -35,6 +37,14 @@ ok
  "HOSTNAME=1c91a740c50a"]
 4>
 ```
+
+#### Features
+
+1. observer is a wx widget application, the GUI may require different protocol
+   for different OSes, for Linux it requires X11 protocol be properly setup
+   this wiki has setup for Linux desktop for observer use in elixir, which also applies to Erlang
+   https://github.com/c0b/docker-elixir/wiki/use-observer
+2. dirty scheduler is enabled in Erlang 19 images;
 
 Read from https://github.com/erlang/otp/releases for each tag description as release annoucement.
 
