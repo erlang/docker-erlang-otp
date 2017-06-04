@@ -1,12 +1,19 @@
 FROM debian:jessie
 
-ENV OTP_VERSION="20.0-rc1"
+ENV OTP_VERSION="20.0-rc2"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="9d31979ea4f95553389910c74b8a709992697d8bc7ebeb9a65726d2bd97ab900" \
+	&& OTP_DOWNLOAD_SHA256="e0d5227df46cd2494fb4d719eec32336c86e9e8ef49593f704315ddcd06a67c7" \
+	&& fetchDeps=' \
+		curl \
+		ca-certificates' \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends $fetchDeps \
+	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
+	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& runtimeDeps=' \
 		libodbc1 \
 		libssl1.0.0 \
@@ -14,8 +21,6 @@ RUN set -xe \
 		libwxgtk3.0-0 \
 	' \
 	&& buildDeps=' \
-		curl \
-		ca-certificates \
 		autoconf \
 		gcc \
 		make \
@@ -25,7 +30,6 @@ RUN set -xe \
 		libsctp-dev \
 		libwxgtk3.0-dev \
 	' \
-	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
@@ -35,14 +39,13 @@ RUN set -xe \
 	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
-	  && echo "${OTP_VERSION}" > ./OTP_VERSION \
 	  && ./otp_build autoconf \
 	  && ./configure \
 		--enable-dirty-schedulers \
 	  && make -j$(nproc) \
 	  && make install ) \
 	&& find /usr/local -name examples | xargs rm -rf \
-	&& apt-get purge -y --auto-remove $buildDeps \
+	&& apt-get purge -y --auto-remove $buildDeps $fetchDeps \
 	&& rm -rf $ERL_TOP /var/lib/apt/lists/*
 
 CMD ["erl"]

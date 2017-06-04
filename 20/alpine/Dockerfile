@@ -1,26 +1,27 @@
-FROM alpine:3.5
+FROM alpine:3.6
 
-ENV OTP_VERSION="20.0-rc1"
+ENV OTP_VERSION="20.0-rc2"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="9d31979ea4f95553389910c74b8a709992697d8bc7ebeb9a65726d2bd97ab900" \
+	&& OTP_DOWNLOAD_SHA256="e0d5227df46cd2494fb4d719eec32336c86e9e8ef49593f704315ddcd06a67c7" \
+	&& apk add --no-cache --virtual .fetch-deps \
+		curl \
+		ca-certificates \
+	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
+	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
 		gcc \
 		libc-dev \
 		make \
 		autoconf \
 		ncurses-dev \
-		curl \
 		tar \
-	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
-	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%%@*}" \
 	&& mkdir -vp $ERL_TOP \
 	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
-	  && echo "${OTP_VERSION}" > ./OTP_VERSION \
 	  && ./otp_build autoconf \
 	  && export OTP_SMALL_BUILD=true \
 	  && ./configure \
@@ -45,6 +46,6 @@ RUN set -xe \
 			| sort -u \
 	) \
 	&& apk add --virtual .erlang-rundeps $runDeps \
-	&& apk del .build-deps
+	&& apk del .fetch-deps .build-deps
 
 CMD ["erl"]
