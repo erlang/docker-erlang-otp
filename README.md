@@ -55,7 +55,7 @@ Read from https://github.com/erlang/otp/releases for each tag description as rel
 1. the standard variant `erlang:20`, `erlang:19`, `erlang:18`, builds from source code,
    based on [`buildpack-deps:jessie`](https://hub.docker.com/_/buildpack-deps/);
    it covered gcc compiler and some popular -dev packages, for those erlang port drivers written in C; while it doesn't have java compiler so jinterface doesn't compile, assuming demand to write java code for erlang applications is low;
-2. the `-onbuild` variant is deprecated, due to docker-library/official-images#2076
+2. the `-onbuild` variant is deprecated; for more details, see [docker-library/official-images#2076](https://github.com/docker-library/official-images/issues/2076).
 3. the slim version is built from `debian:jessie` install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, to shrink image size;
 4. the alpine version is built from last alpine stable image, install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, also removed src/\*.erl include/\*.hrl / all docs (include man info) / examples / static archives / build and unittest tools, and strip the ELF binaries, to get a really slim image, ideally smaller than 20MB;
 5. rebar and rebar3 tool is bundled in `erlang:20`, `erlang:19` and `erlang:18` image;

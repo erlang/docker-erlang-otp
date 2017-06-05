@@ -1,12 +1,12 @@
 FROM debian:jessie
 
-ENV OTP_VERSION="19.3.4"
+ENV OTP_VERSION="19.3.5"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="fd169d150a70406438e483a4ed17e2069a83612e732ac6a05f2a3568f8aa72d8" \
+	&& OTP_DOWNLOAD_SHA256="6b043a531b87a6482bc4a3b3ccccd629824aab41f1e9565a541b545e01923eb6" \
 	&& runtimeDeps=' \
 		libodbc1 \
 		libssl1.0.0 \

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-declare -a -r versions=( 19 18 17 )
+declare -a -r versions=( 20 19 18 17 )
 declare -A -r aliases=(
 	[19]='latest'
 )
@@ -78,7 +78,7 @@ for version in "${versions[@]}"; do
 		Directory: $version
 	EOE
 
-	for variant in slim onbuild; do
+	for variant in slim alpine; do
 		[ -f "$version/$variant/Dockerfile" ] || continue
 
 		commit="$(dirCommit "$version/$variant")"
