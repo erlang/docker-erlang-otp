@@ -48,4 +48,13 @@ RUN set -xe \
 	&& apk add --virtual .erlang-rundeps $runDeps \
 	&& apk del .fetch-deps .build-deps
 
+ENV DUMBINIT_VERSION="1.2.0"
+
+RUN set -xe \
+	&& DUMBINIT_DOWNLOAD_URL="https://github.com/Yelp/dumb-init/releases/download/v${DUMBINIT_VERSION}/dumb-init_${DUMBINIT_VERSION}_amd64" \
+	&& curl -fSL -o /usr/local/bin/dumb-init "$DUMBINIT_DOWNLOAD_URL" \
+	&& chmod +x /usr/local/bin/dumb-init
+
+ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
+
 CMD ["erl"]
