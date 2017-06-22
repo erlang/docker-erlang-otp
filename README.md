@@ -16,21 +16,21 @@ The goal is to provide images for a few last erlang releases (currently 20 / 19 
 here is providing the latest Erlang 20 image; you may pull from official-images or build it locally:
 
 ```console
-$ docker build -t erlang:20.0-rc1 ./20
+$ docker build -t erlang:20.0 ./20
 [...]
-➸ docker run -it --rm erlang:20.0-rc1
-Erlang/OTP 20 [RELEASE CANDIDATE 1] [erts-9.0] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:10] [hipe] [kernel-poll:false]
+➸ docker run -it --rm erlang:20.0
+Erlang/OTP 20 [erts-9.0] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:10] [hipe] [kernel-poll:false]
 
 Eshell V9.0  (abort with ^G)
 1> erlang:system_info(otp_release).
 "20"
 2> os:getenv().
-["PWD=/","REBAR3_VERSION=3.3.6",
+["PWD=/","REBAR3_VERSION=3.4.1",
 "ROOTDIR=/usr/local/lib/erlang","LANG=C.UTF-8",
 "PATH=/usr/local/lib/erlang/erts-9.0/bin:/usr/local/lib/erlang/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
 "REBAR_VERSION=2.6.4","TERM=xterm",
 "BINDIR=/usr/local/lib/erlang/erts-9.0/bin","PROGNAME=erl",
-"EMU=beam","OTP_VERSION=20.0-rc1","HOME=/root",
+"EMU=beam","OTP_VERSION=20.0","HOME=/root",
 "HOSTNAME=9b1e7f4d7206"]
 3> 'hello_юникод_世界'.                                   % Erlang20 now support unicode in atom
 'hello_юникод_世界'
