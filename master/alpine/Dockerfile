@@ -1,10 +1,10 @@
 FROM alpine:3.6
 
-ENV OTP_VERSION="20.0-rc2@b833a06"
+ENV OTP_VERSION="21.0-rc0@50525f3"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION#*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="ae89c2228eb1d8e868138610e0eb5fe2490557e186273d8e12eb94daf7f4c443" \
+	&& OTP_DOWNLOAD_SHA256="d491687d0701e17ca63f2afd8bb69728c6800d57ffc39ed20709a62fcbfb147e" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
 		ca-certificates \
@@ -16,6 +16,7 @@ RUN set -xe \
 		make \
 		autoconf \
 		ncurses-dev \
+		openssl-dev \
 		tar \
 	&& export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%@*}" \
 	&& mkdir -vp $ERL_TOP \
@@ -26,17 +27,20 @@ RUN set -xe \
 	  && sed -i -e '/utils\/gen_git_version/c\\\
 	@echo GIT_VSN=-DERLANG_GIT_VERSION="\\"\\\\\\""'${OTP_VERSION#*@}'\\\\"\\"\\"" > $@' ./erts/emulator/Makefile.in \
 	  && export OTP_SMALL_BUILD=true \
+		EXTRA_APPLICATIONS='\
+		  crypto public_key asn1 ssl \
+		  erl_interface syntax_tools \
+		  eunit dialyzer edoc snmp' \
 	  && ./configure \
 		--enable-dirty-schedulers \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
-	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|src\|info\|include\|examples\)' | xargs rm -rf \
-	&& rm -rf /usr/local/lib/erlang/lib/*tools* \
-		/usr/local/lib/erlang/lib/*test* \
-		/usr/local/lib/erlang/usr \
-		/usr/local/lib/erlang/misc \
+	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|src\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
+	&& rm -rf \
 		/usr/local/lib/erlang/erts*/lib/lib*.a \
+		/usr/local/lib/erlang/usr/lib/lib*.a \
+		/usr/local/lib/erlang/lib/*/lib/lib*.a \
 		/usr/local/lib/erlang/erts*/lib/internal \
 	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs strip --strip-all \
 	&& scanelf --nobanner -E ET_DYN -BF '%F' --recursive /usr/local | xargs -r strip --strip-unneeded \
