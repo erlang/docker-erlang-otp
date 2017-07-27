@@ -1,22 +1,23 @@
 FROM alpine:3.6
 
-ENV OTP_VERSION="21.0-rc0@72d994d"
+ENV OTP_VERSION="21.0-rc0@fdce942"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION#*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="16bf8476b2c681f92a9595d3520a6f77c0f8eaf8efea6181147516d026b82fbf" \
+	&& OTP_DOWNLOAD_SHA256="7f92f4bcb49066992349e5929551d08368e979d8fe5bbac4fb282a165177fade" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
 		ca-certificates \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
-		gcc \
-		libc-dev \
-		make \
+		build-base \
+		linux-headers \
 		autoconf \
 		ncurses-dev \
 		openssl-dev \
+		unixodbc-dev \
+		lksctp-tools-dev \
 		tar \
 	&& export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%@*}" \
 	&& mkdir -vp $ERL_TOP \
@@ -44,7 +45,7 @@ RUN set -xe \
 			| xargs -r apk info --installed \
 			| sort -u \
 	) \
-	&& apk add --virtual .erlang-rundeps $runDeps \
+	&& apk add --virtual .erlang-rundeps lksctp-tools $runDeps \
 	&& apk del .fetch-deps .build-deps
 
 CMD ["erl"]
