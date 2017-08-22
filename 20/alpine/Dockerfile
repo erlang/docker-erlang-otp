@@ -12,11 +12,15 @@ RUN set -xe \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
 		gcc \
+		g++ \
 		libc-dev \
+		linux-headers \
 		make \
 		autoconf \
 		ncurses-dev \
 		openssl-dev \
+		unixodbc-dev \
+		lksctp-tools-dev \
 		tar \
 	&& export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%%@*}" \
 	&& mkdir -vp $ERL_TOP \
@@ -28,7 +32,9 @@ RUN set -xe \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
-	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|src\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
+	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
+	&& find /usr/local -name src | xargs -r find | grep -v '\.hrl$' | xargs rm -v || true \
+	&& find /usr/local -name src | xargs -r find | xargs rmdir -vp || true \
 	&& rm -rf \
 		/usr/local/lib/erlang/erts*/lib/lib*.a \
 		/usr/local/lib/erlang/usr/lib/lib*.a \
@@ -42,7 +48,7 @@ RUN set -xe \
 			| xargs -r apk info --installed \
 			| sort -u \
 	) \
-	&& apk add --virtual .erlang-rundeps $runDeps \
+	&& apk add --virtual .erlang-rundeps $runDeps lksctp-tools \
 	&& apk del .fetch-deps .build-deps
 
 CMD ["erl"]
