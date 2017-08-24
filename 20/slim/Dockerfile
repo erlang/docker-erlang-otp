@@ -1,12 +1,12 @@
 FROM debian:jessie
 
-ENV OTP_VERSION="20.0.2"
+ENV OTP_VERSION="20.0.3"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="8a6020138eeecc015ac5d12ccb2b2c543e975559e669c376702723a2a67dc105" \
+	&& OTP_DOWNLOAD_SHA256="e77780f8f73dc7568983c4fe67b31c2998c0fa6d3800b6f721be326ebb657a39" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
@@ -18,17 +18,16 @@ RUN set -xe \
 		libodbc1 \
 		libssl1.0.0 \
 		libsctp1 \
-		libwxgtk3.0-0 \
 	' \
 	&& buildDeps=' \
 		autoconf \
 		gcc \
+		g++ \
 		make \
 		libncurses-dev \
 		unixodbc-dev \
 		libssl-dev \
 		libsctp-dev \
-		libwxgtk3.0-dev \
 	' \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
