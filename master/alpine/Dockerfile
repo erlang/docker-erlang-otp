@@ -12,6 +12,7 @@ RUN set -xe \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
 		build-base \
+		dpkg-dev dpkg \
 		linux-headers \
 		autoconf \
 		ncurses-dev \
@@ -27,7 +28,8 @@ RUN set -xe \
 	  && ./otp_build autoconf \
 	  && sed -i -e '/utils\/gen_git_version/c\\\
 	@echo GIT_VSN=-DERLANG_GIT_VERSION="\\"\\\\\\""'${OTP_VERSION#*@}'\\\\"\\"\\"" > $@' ./erts/emulator/Makefile.in \
-	  && ./configure \
+	  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	  && ./configure --build="$gnuArch" \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
@@ -36,7 +38,7 @@ RUN set -xe \
 		/usr/local/lib/erlang/erts*/lib/lib*.a \
 		/usr/local/lib/erlang/usr/lib/lib*.a \
 		/usr/local/lib/erlang/lib/*/lib/lib*.a \
-	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs strip --strip-all \
+	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs -r strip --strip-all \
 	&& scanelf --nobanner -E ET_DYN -BF '%F' --recursive /usr/local | xargs -r strip --strip-unneeded \
 	&& runDeps=$( \
 		scanelf --needed --nobanner --recursive /usr/local \

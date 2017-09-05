@@ -15,6 +15,7 @@ RUN set -xe \
 		curl \
 		ca-certificates \
 		autoconf \
+		dpkg-dev \
 		gcc \
 		make \
 		libncurses-dev \
@@ -31,7 +32,8 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
 	&& ./otp_build autoconf \
-	&& ./configure \
+	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& ./configure --build="$gnuArch" \
 	&& make -j$(nproc) \
 	&& make install \
 	&& find /usr/local -name examples | xargs rm -rf \

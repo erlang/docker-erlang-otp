@@ -71,26 +71,35 @@ for version in "${versions[@]}"; do
 	done
 	versionAliases+=( $version ${aliases[$version]:-} )
 
-	echo
-	cat <<-EOE
-		Tags: $(join ', ' "${versionAliases[@]}")
-		GitCommit: $commit
-		Directory: $version
-	EOE
+	for variant in '' slim alpine; do
+		dir="$version${variant:+/$variant}"
+		[ -f "$dir/Dockerfile" ] || continue
 
-	for variant in slim alpine; do
-		[ -f "$version/$variant/Dockerfile" ] || continue
+		commit="$(dirCommit "$dir")"
 
-		commit="$(dirCommit "$version/$variant")"
+		variantAliases=( "${versionAliases[@]}" )
+		if [ -n "$variant" ]; then
+			variantAliases=( "${variantAliases[@]/%/-$variant}" )
+			variantAliases=( "${variantAliases[@]//latest-/}" )
+		fi
 
-		variantAliases=( "${versionAliases[@]/%/-$variant}" )
-		variantAliases=( "${variantAliases[@]//latest-/}" )
+		case "$variant" in
+			alpine) variantArches=( amd64 ) ;; # TODO https://github.com/gliderlabs/docker-alpine/issues/304
+			*)
+				variantArches=( amd64 arm32v7 arm64v8 i386 s390x )
+				case "$version" in
+					18|19) ;; # "/usr/lib/gcc/powerpc64le-linux-gnu/4.9/../../../powerpc64le-linux-gnu/libutil.so: error adding symbols: File in wrong format"
+					*) variantArches+=( ppc64le ) ;;
+				esac
+				;;
+		esac
 
 		echo
 		cat <<-EOE
 			Tags: $(join ', ' "${variantAliases[@]}")
+			Architectures: $(join ', ' "${variantArches[@]}")
 			GitCommit: $commit
-			Directory: $version/$variant
+			Directory: $dir
 		EOE
 	done
 done

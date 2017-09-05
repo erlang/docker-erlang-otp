@@ -11,6 +11,7 @@ RUN set -xe \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
+		dpkg-dev dpkg \
 		gcc \
 		g++ \
 		libc-dev \
@@ -28,7 +29,8 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
 	  && ./otp_build autoconf \
-	  && ./configure \
+	  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	  && ./configure --build="$gnuArch" \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
@@ -39,7 +41,7 @@ RUN set -xe \
 		/usr/local/lib/erlang/erts*/lib/lib*.a \
 		/usr/local/lib/erlang/usr/lib/lib*.a \
 		/usr/local/lib/erlang/lib/*/lib/lib*.a \
-	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs strip --strip-all \
+	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs -r strip --strip-all \
 	&& scanelf --nobanner -E ET_DYN -BF '%F' --recursive /usr/local | xargs -r strip --strip-unneeded \
 	&& runDeps=$( \
 		scanelf --needed --nobanner --recursive /usr/local \

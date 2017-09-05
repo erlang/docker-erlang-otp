@@ -26,7 +26,8 @@ RUN set -xe \
 	  && ./otp_build autoconf \
 	  && sed -i -e '/utils\/gen_git_version/c\\\
 	@echo GIT_VSN=-DERLANG_GIT_VERSION="\\"\\\\\\""'${OTP_VERSION#*@}'\\\\"\\"\\"" > $@' ./erts/emulator/Makefile.in \
-	  && ./configure \
+	  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	  && ./configure --build="$gnuArch" \
 	  && make -j$(nproc) \
 	  && make install ) \
 	&& find /usr/local -name examples | xargs rm -rf \
