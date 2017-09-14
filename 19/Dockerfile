@@ -6,7 +6,7 @@ ENV OTP_VERSION="19.3.6.2"
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="40f94b360f470a66462b5dc7faa26dc15564055e736688495a095e9cface1cee" \
+	&& OTP_DOWNLOAD_SHA256="4d901d90eff9d0775870a2c0c97220cf77d1531be9c8a5d276a2e5516e146a4c" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0-0' \

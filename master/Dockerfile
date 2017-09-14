@@ -6,7 +6,7 @@ ENV OTP_VERSION="21.0-rc0@fdce942"
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION#*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="7f92f4bcb49066992349e5929551d08368e979d8fe5bbac4fb282a165177fade" \
+	&& OTP_DOWNLOAD_SHA256="ecff41fb43ec3a31dc4f7a99b515070908d070118b32ad18552b1022cca4ddbd" \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA256 otp-src.tar.gz" | sha256sum -c - \
 	&& runtimeDeps='libodbc1 \
