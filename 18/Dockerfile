@@ -6,7 +6,7 @@ ENV OTP_VERSION="18.3.4.5"
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-$OTP_VERSION.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="a27b8ff057f77305e7c9f2dbcd002232856438fd1fdf3822edd27c6f77a60ca1" \
+	&& OTP_DOWNLOAD_SHA256="c51d12ad885418c22027e1b85264b4b6678f236f032e0f76f526ead984807a57" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1' \
 	&& buildDeps='unixodbc-dev \
