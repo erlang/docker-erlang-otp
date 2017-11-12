@@ -39,11 +39,11 @@ RUN set -xe \
 	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
-	  && ./otp_build autoconf \
-	  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
-	  && ./configure --build="$gnuArch" \
-	  && make -j$(nproc) \
-	  && make install ) \
+	&& ./otp_build autoconf \
+	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& ./configure --build="$gnuArch" \
+	&& make -j$(nproc) \
+	&& make install ) \
 	&& find /usr/local -name examples | xargs rm -rf \
 	&& apt-get purge -y --auto-remove $buildDeps $fetchDeps \
 	&& rm -rf $ERL_TOP /var/lib/apt/lists/*

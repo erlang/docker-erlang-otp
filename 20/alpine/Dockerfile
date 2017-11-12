@@ -28,11 +28,11 @@ RUN set -xe \
 	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
-	  && ./otp_build autoconf \
-	  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
-	  && ./configure --build="$gnuArch" \
-	  && make -j$(getconf _NPROCESSORS_ONLN) \
-	  && make install ) \
+	&& ./otp_build autoconf \
+	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& ./configure --build="$gnuArch" \
+	&& make -j$(getconf _NPROCESSORS_ONLN) \
+	&& make install ) \
 	&& rm -rf $ERL_TOP \
 	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
 	&& find /usr/local -name src | xargs -r find | grep -v '\.hrl$' | xargs rm -v || true \
