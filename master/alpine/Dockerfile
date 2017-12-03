@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 ENV OTP_VERSION="21.0-rc0@d99803e"
 
