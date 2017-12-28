@@ -57,7 +57,10 @@ RUN set -xe \
 	&& HOME=$PWD ./bootstrap \
 	&& install -v ./rebar3 /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar3-src \
-	&& apk add --virtual .erlang-rundeps $runDeps lksctp-tools \
+	&& apk add --virtual .erlang-rundeps \
+		$runDeps \
+		lksctp-tools \
+		ca-certificates \
 	&& apk del .fetch-deps .build-deps
 
 CMD ["erl"]
