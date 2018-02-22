@@ -1,12 +1,12 @@
 FROM debian:jessie
 
-ENV OTP_VERSION="20.2.3"
+ENV OTP_VERSION="20.2.4"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="d50a7e77a4f0c737c5d6110b92a0aa31bad1c801ff3dccc80c02e3d564242f69" \
+	&& OTP_DOWNLOAD_SHA256="82072944a1278ff992867b84da7499c64e34e8a853804f4e7a557235308c79d7" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
