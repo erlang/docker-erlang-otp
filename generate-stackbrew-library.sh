@@ -83,15 +83,12 @@ for version in "${versions[@]}"; do
 			variantAliases=( "${variantAliases[@]//latest-/}" )
 		fi
 
+		variantArches=( amd64 arm32v7 arm64v8 i386 s390x ppc64le )
 		case "$variant" in
-			alpine) variantArches=( amd64 ) ;; # TODO https://github.com/gliderlabs/docker-alpine/issues/304
-			*)
-				variantArches=( amd64 arm32v7 arm64v8 i386 s390x )
-				case "$version" in
-					18|19) ;; # "/usr/lib/gcc/powerpc64le-linux-gnu/4.9/../../../powerpc64le-linux-gnu/libutil.so: error adding symbols: File in wrong format"
-					*) variantArches+=( ppc64le ) ;;
-				esac
-				;;
+			alpine) variantArches=( ${variantArches[@]/arm32v7} )
+		esac
+		case "$version" in
+		        19|18) variantArches=( ${variantArches[@]/ppc64le} )
 		esac
 
 		echo
