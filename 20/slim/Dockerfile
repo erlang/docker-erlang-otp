@@ -16,7 +16,7 @@ RUN set -xe \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& runtimeDeps=' \
 		libodbc1 \
-		libssl1.0.2 \
+		libssl1.1 \
 		libsctp1 \
 	' \
 	&& buildDeps=' \
