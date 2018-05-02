@@ -62,6 +62,6 @@ RUN set -xe \
 	&& tar -xzf rebar3-src.tar.gz -C /usr/src/rebar3-src --strip-components=1 \
 	&& rm rebar3-src.tar.gz \
 	&& cd /usr/src/rebar3-src \
-	&& HOME=$PWD ./bootstrap \
-	&& install -v ./rebar3 /usr/local/bin/ \
+	&& HOME=$PWD ./bootstrap || true \
+	&& install -v ./rebar3 /usr/local/bin/ || true \
 	&& rm -rf /usr/src/rebar3-src
