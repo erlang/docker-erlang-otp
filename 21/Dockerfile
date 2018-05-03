@@ -51,17 +51,17 @@ RUN set -xe \
 	&& install -v ./rebar /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar-src
 
-ENV REBAR3_VERSION="3.5.0"
+ENV REBAR3_VERSION="3.5.2"
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="e95e9d1f2ce219f548d4f49ad41409af02069190f19e2b6717585eef6ee77501" \
+	&& REBAR3_DOWNLOAD_SHA256="92f2ee29619d089b61b828bc00748aece0323aec0cc009849a81a98070318130" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
 	&& tar -xzf rebar3-src.tar.gz -C /usr/src/rebar3-src --strip-components=1 \
 	&& rm rebar3-src.tar.gz \
 	&& cd /usr/src/rebar3-src \
-	&& HOME=$PWD ./bootstrap || true \
-	&& install -v ./rebar3 /usr/local/bin/ || true \
+	&& HOME=$PWD ./bootstrap \
+	&& install -v ./rebar3 /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar3-src
