@@ -48,10 +48,10 @@ extractVersion() {
 self="${BASH_SOURCE##*/}"
 
 cat <<-EOH
-# this file is generated via https://github.com/c0b/docker-erlang-otp/blob/$(fileCommit "$self")/$self
+# this file is generated via https://github.com/erlang/docker-erlang-otp/blob/$(fileCommit "$self")/$self
 
 Maintainers: Mr C0B <denc716@gmail.com> (@c0b)
-GitRepo: https://github.com/c0b/docker-erlang-otp.git
+GitRepo: https://github.com/erlang/docker-erlang-otp.git
 EOH
 
 for version in "${versions[@]}"; do
