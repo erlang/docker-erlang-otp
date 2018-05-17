@@ -1,10 +1,10 @@
 FROM alpine:3.7
 
-ENV OTP_VERSION="21.0-rc0@177eab3"
+ENV OTP_VERSION="21.0-rc1@9211638"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION#*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="0b9d6d3ce8bc9c8f2d9645146a9af2c5a5032ed69467adecacd0f1c255b178e2" \
+	&& OTP_DOWNLOAD_SHA256="1595a4ae22fe3939fe9ca214566369b53919d7da21ccc52bbca8b4a38d3054bc" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
 		ca-certificates \
@@ -33,11 +33,9 @@ RUN set -xe \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
-	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|src\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
-	&& rm -rf \
-		/usr/local/lib/erlang/erts*/lib/lib*.a \
-		/usr/local/lib/erlang/usr/lib/lib*.a \
-		/usr/local/lib/erlang/lib/*/lib/lib*.a \
+	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
+	&& find /usr/local -name src | xargs -r find | grep -v '\.hrl$' | xargs rm -v || true \
+	&& find /usr/local -name src | xargs -r find | xargs rmdir -vp || true \
 	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs -r strip --strip-all \
 	&& scanelf --nobanner -E ET_DYN -BF '%F' --recursive /usr/local | xargs -r strip --strip-unneeded \
 	&& runDeps="$( \
@@ -46,7 +44,13 @@ RUN set -xe \
 			| sort -u \
 			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)" \
-	&& apk add --virtual .erlang-rundeps lksctp-tools $runDeps \
+	&& apk add --virtual .erlang-rundeps $runDeps lksctp-tools \
 	&& apk del .fetch-deps .build-deps
 
 CMD ["erl"]
+
+ENV REBAR3_VERSION="3.5.3"
+
+RUN set -xe \
+	&& wget -O /usr/local/bin/rebar3 https://github.com/erlang/rebar3/releases/download/${REBAR3_VERSION}/rebar3 \
+	&& chmod -v a+x /usr/local/bin/rebar3
