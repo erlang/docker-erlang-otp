@@ -1,12 +1,12 @@
 FROM debian:stretch
 
-ENV OTP_VERSION="21.0-rc1"
+ENV OTP_VERSION="21.0-rc2"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="8a9e2cad0243195254f936456ca19d7a4bf47919cfdf10eedb0104bef5d6d90d" \
+	&& OTP_DOWNLOAD_SHA256="0b4c6abd7ed2c332cf5dcc1e8f4503778f1d20c517548a34242ed15d34c88975" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
