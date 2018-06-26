@@ -49,7 +49,7 @@ RUN set -xe \
 
 CMD ["erl"]
 
-ENV REBAR3_VERSION="3.6.0"
+ENV REBAR3_VERSION="3.6.1"
 
 RUN set -xe \
 	&& wget -O /usr/local/bin/rebar3 https://github.com/erlang/rebar3/releases/download/${REBAR3_VERSION}/rebar3 \
