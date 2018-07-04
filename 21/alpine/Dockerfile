@@ -1,10 +1,10 @@
 FROM alpine:3.7
 
-ENV OTP_VERSION="21.0.1"
+ENV OTP_VERSION="21.0.2"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="65a5f1c54bd52a5e9840cda536a2b37611bb08ab869295bba812c06c2bc7c9bc" \
+	&& OTP_DOWNLOAD_SHA256="bc64a6edcbc403a56b4f75997394697addec61ad67623dba81d11729abb931a8" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
 		ca-certificates \
