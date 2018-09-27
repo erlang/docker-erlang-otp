@@ -98,5 +98,22 @@ for version in "${versions[@]}"; do
 			GitCommit: $commit
 			Directory: $dir
 		EOE
-	done
+
+        if [ "$variant" == "alpine" ]; then
+            dir="$version${variant:+/$variant/alpine-rebar3}"
+            if [ -f "$dir/Dockerfile" ]; then
+                variantAliases=( "${variantAliases[@]/%alpine/alpine-rebar3}" )
+                variantAliases=( "${variantAliases[@]//latest-/}" )
+                commit="$(dirCommit "$dir")"
+                echo
+cat <<-EOK
+Tags: $(join ', ' "${variantAliases[@]}")
+Architectures: $(join ', ' "${variantArches[@]}")
+GitCommit: $commit
+Directory: $dir
+EOK
+            fi
+        fi
+
+    done
 done
