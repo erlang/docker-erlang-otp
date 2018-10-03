@@ -90,6 +90,9 @@ for version in "${versions[@]}"; do
 		case "$version" in
 		        19|18) variantArches=( ${variantArches[@]/ppc64le} )
 		esac
+		case "$variant" in
+			jessie) variantArches=( amd64 )
+		esac
 
 		echo
 		cat <<-EOE
