@@ -13,6 +13,8 @@ env:
   - DIR=20 VARIANT=alpine
   - DIR=19
   - DIR=19 VARIANT=slim
+  - DIR=17
+  - DIR=17 VARIANT=slim
 
 before_script:
   - cd "$DIR"
