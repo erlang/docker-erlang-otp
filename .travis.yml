@@ -23,23 +23,8 @@ before_script:
   - image="erlang:${OTP_VERSION}${VARIANT:+-$VARIANT}"
 
 script:
-    - |
-      (
-      set -x -Eeuo pipefail
-      docker build --pull -t "$image" "${VARIANT:-.}"
-      ~/official-images/test/run.sh "$image"
-      ## see travis-ci/travis-ci#5434, build.sh uses unbound variables, bash set -u results in fail
-      ## solution copy from https://stackoverflow.com/questions/11362250/in-bash-how-do-i-test-if-a-variable-is-defined-in-u-mode/11362364#11362364
-      if [ -z "${VARIANT-}" ]; then
-         VARIANT=test
-      fi
-      if [[ "$VARIANT" == "alpine" ]]; then
-        if [ -d alpine/alpine-rebar3 ]; then
-          docker build -t "$image-rebar3" alpine/alpine-rebar3
-          ~/official-images/test/run.sh "$image-rebar3"
-        fi
-      fi
-      )
+    - docker build --pull -t "$image" "${VARIANT:-.}"
+    - ~/official-images/test/run.sh "$image"
 
 after_script:
   - docker images
