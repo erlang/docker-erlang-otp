@@ -13,6 +13,8 @@ env:
   - DIR=20 VARIANT=alpine
   - DIR=19
   - DIR=19 VARIANT=slim
+  - DIR=18
+  - DIR=18 VARIANT=slim
 
 install:
   - git clone https://github.com/docker-library/official-images.git ~/official-images
