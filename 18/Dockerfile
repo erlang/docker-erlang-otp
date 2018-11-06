@@ -1,4 +1,4 @@
-FROM buildpack-deps:jessie
+FROM buildpack-deps:stretch
 
 ENV OTP_VERSION="18.3.4.10"
 
@@ -8,9 +8,12 @@ RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
 	&& OTP_DOWNLOAD_SHA256="994c8aa2931d4d7ad473c68d1be31ec9e7faa96a2859f253225c3b33226dfcba" \
 	&& runtimeDeps='libodbc1 \
-			libsctp1' \
+			libsctp1 \
+			libssl1.0-dev \
+			libwxgtk3.0' \
 	&& buildDeps='unixodbc-dev \
-			libsctp-dev' \
+			libsctp-dev \
+			libwxgtk3.0-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \

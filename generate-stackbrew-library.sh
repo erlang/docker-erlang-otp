@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-declare -a -r versions=( 21 20 19 18 17 )
+declare -a -r versions=( 21 20 19 18 )
 declare -A -r aliases=(
 	[21]='latest'
 )
@@ -71,7 +71,7 @@ for version in "${versions[@]}"; do
 	done
 	versionAliases+=( $version ${aliases[$version]:-} )
 
-	for variant in '' slim alpine jessie; do
+	for variant in '' slim alpine; do
 		dir="$version${variant:+/$variant}"
 		[ -f "$dir/Dockerfile" ] || continue
 
@@ -89,9 +89,6 @@ for version in "${versions[@]}"; do
 		esac
 		case "$version" in
 		        19|18) variantArches=( ${variantArches[@]/ppc64le} )
-		esac
-		case "$variant" in
-			jessie) variantArches=( amd64 )
 		esac
 
 		echo

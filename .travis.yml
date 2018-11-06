@@ -7,7 +7,6 @@ env:
   - DIR=21
   - DIR=21 VARIANT=slim
   - DIR=21 VARIANT=alpine
-  - DIR=21 VARIANT=jessie
   - DIR=20
   - DIR=20 VARIANT=slim
   - DIR=20 VARIANT=alpine

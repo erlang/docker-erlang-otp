@@ -1,4 +1,4 @@
-FROM buildpack-deps:jessie
+FROM buildpack-deps:stretch
 
 ENV OTP_VERSION="19.3.6.12"
 
@@ -9,6 +9,7 @@ RUN set -xe \
 	&& OTP_DOWNLOAD_SHA256="f5ff65cde3f2db6f1dd61f6985136fcf87b55fa3f85e17ee513cc05dbe2da635" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
+			libssl1.0-dev \
 			libwxgtk3.0' \
 	&& buildDeps='unixodbc-dev \
 			libsctp-dev \
