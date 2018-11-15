@@ -1,12 +1,12 @@
 FROM buildpack-deps:stretch
 
-ENV OTP_VERSION="20.3.8.13"
+ENV OTP_VERSION="20.3.8.14"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="31fd10d2a2f5a21501d13849a25b6b85fe9771370cbeb55a43017abeb6cb09e0" \
+	&& OTP_DOWNLOAD_SHA256="a89f5558b296988a689013105294b1e3a968a01918be2552b5766d896169a616" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0' \
