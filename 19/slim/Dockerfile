@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 ENV OTP_VERSION="19.3.6.12"
 
@@ -9,7 +9,7 @@ RUN set -xe \
 	&& OTP_DOWNLOAD_SHA256="f5ff65cde3f2db6f1dd61f6985136fcf87b55fa3f85e17ee513cc05dbe2da635" \
 	&& runtimeDeps=' \
 		libodbc1 \
-		libssl1.0.0 \
+		libssl1.0.2 \
 		libsctp1 \
 		libwxgtk3.0 \
 	' \
@@ -19,12 +19,12 @@ RUN set -xe \
 		autoconf \
 		dpkg-dev \
 		gcc \
+		g++ \
 		make \
 		libncurses-dev \
 		unixodbc-dev \
 		libssl-dev \
 		libsctp-dev \
-		libwxgtk3.0-dev \
 	' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \

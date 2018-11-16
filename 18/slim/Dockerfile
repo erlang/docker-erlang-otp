@@ -1,12 +1,12 @@
-FROM debian:jessie
+FROM debian:stretch
 
-ENV OTP_VERSION="18.3.4.10"
+ENV OTP_VERSION="18.3.4.11"
 
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="994c8aa2931d4d7ad473c68d1be31ec9e7faa96a2859f253225c3b33226dfcba" \
+	&& OTP_DOWNLOAD_SHA256="94f84e8ca0db0dcadd3411fa7a05dd937142b6ae830255dc341c30b45261b01a" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
@@ -16,7 +16,7 @@ RUN set -xe \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& runtimeDeps=' \
 		libodbc1 \
-		libssl1.0.0 \
+		libssl1.0.2 \
 		libsctp1 \
 	' \
 	&& buildDeps=' \
