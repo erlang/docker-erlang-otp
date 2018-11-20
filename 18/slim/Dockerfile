@@ -27,7 +27,7 @@ RUN set -xe \
 		make \
 		libncurses-dev \
 		unixodbc-dev \
-		libssl-dev \
+		libssl1.0-dev \
 		libsctp-dev \
 	' \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
