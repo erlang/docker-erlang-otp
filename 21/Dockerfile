@@ -1,12 +1,14 @@
 FROM buildpack-deps:stretch
 
-ENV OTP_VERSION="21.1.4"
+ENV OTP_VERSION="21.2" \
+    REBAR_VERSION="2.6.4" \
+    REBAR3_VERSION="3.7.5"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="95a97851d4af2d894fe981caa81d077b0d2c01f3bdf6cdf83309baa9678617f9" \
+	&& OTP_DOWNLOAD_SHA256="5d2cb28232a60ce88c6478fcf5d6aa5be353555e02f3cf96ed93c9bae7522448" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0' \
@@ -36,8 +38,6 @@ CMD ["erl"]
 
 # extra useful tools here: rebar & rebar3
 
-ENV REBAR_VERSION="2.6.4"
-
 RUN set -xe \
 	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION}.tar.gz" \
 	&& REBAR_DOWNLOAD_SHA256="577246bafa2eb2b2c3f1d0c157408650446884555bf87901508ce71d5cc0bd07" \
@@ -50,8 +50,6 @@ RUN set -xe \
 	&& ./bootstrap \
 	&& install -v ./rebar /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar-src
-
-ENV REBAR3_VERSION="3.7.5"
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
