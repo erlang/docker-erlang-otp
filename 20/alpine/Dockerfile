@@ -1,12 +1,12 @@
 FROM alpine:3.8
 
-ENV OTP_VERSION="20.3.8.16" \
-     REBAR3_VERSION="3.7.5"
+ENV OTP_VERSION="20.3.8.17" \
+     REBAR3_VERSION="3.8.0"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="47af65b7a217e7ce45836c0ad440dfffe931a978ed3ac67e27dc10ffb014b454" \
-	&& REBAR3_DOWNLOAD_SHA256="46d9991c8af1dc85a1de8edc6618c3e6dc9c3de60c67e8139a98d2e4c2d047ad" \
+	&& OTP_DOWNLOAD_SHA256="767a3e59aa64ffc811881c6b624ac6dc004be885b973884c4506a00d7693285c" \
+	&& REBAR3_DOWNLOAD_SHA256="fc4d08037d39bcc651a4a749f8a5b1a10b2205527df834c2aee8f60725c3f431" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
 		ca-certificates \
