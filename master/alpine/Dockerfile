@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 ENV OTP_VERSION="22.0-rc0@414b8a8"
 
@@ -49,7 +49,7 @@ RUN set -xe \
 
 CMD ["erl"]
 
-ENV REBAR3_VERSION="3.7.4"
+ENV REBAR3_VERSION="3.9.0"
 
 RUN set -xe \
 	&& wget -O /usr/local/bin/rebar3 https://github.com/erlang/rebar3/releases/download/${REBAR3_VERSION}/rebar3 \
