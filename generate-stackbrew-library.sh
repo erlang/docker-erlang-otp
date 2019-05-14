@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eu
 
-declare -a -r versions=( 21 20 19 18 )
+declare -a -r versions=( 22 21 20 19 18 )
 declare -A -r aliases=(
-	[21]='latest'
+	[22]='latest'
 )
 
 # get the most recent commit which modified any of "$@"
