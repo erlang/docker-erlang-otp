@@ -1,11 +1,11 @@
 FROM alpine:3.9
 
-ENV OTP_VERSION="22.0.5" \
+ENV OTP_VERSION="22.0.6" \
     REBAR3_VERSION="3.11.1"
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="28e42e2cf2e43c187f273540987b0f297c46cff2c5eeba453144bc0d41dafd31" \
+	&& OTP_DOWNLOAD_SHA256="b3489420a673348d0b0f89ebac35a569ee0a108f06f72990faae38971fbe4f13" \
 	&& REBAR3_DOWNLOAD_SHA256="a1822db5210b96b5f8ef10e433b22df19c5fc54dfd847bcaab86c65151ce4171" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
