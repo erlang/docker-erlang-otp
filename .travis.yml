@@ -2,6 +2,10 @@ language: bash
 services: docker
 
 env:
+  global:
+  - REBAR3_VERSION=3.12.0
+  - REBAR3_DOWNLOAD_SHA256=8ac45498f03e293bc6342ec431888f9a81a4fb9e1177a69965238d127c00a79e
+  matrix:
   - DIR=master
   - DIR=master VARIANT=alpine
   - DIR=22
@@ -25,7 +29,7 @@ before_script:
   - image="erlang:${OTP_VERSION}${VARIANT:+-$VARIANT}"
 
 script:
-    - docker build --pull -t "$image" "${VARIANT:-.}"
+    - docker build --build-arg REBAR3_VERSION=$REBAR3_VERSION --build-arg REBAR3_DOWNLOAD_SHA256=$REBAR3_DOWNLOAD_SHA256 --pull -t "$image" "${VARIANT:-.}"
     - ~/official-images/test/run.sh "$image"
 
 after_script:
