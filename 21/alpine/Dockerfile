@@ -1,5 +1,4 @@
-ARG ALPINE_VERSION="3.9"
-FROM alpine:$ALPINE_VERSION
+FROM alpine:3.9
 
 ARG REBAR3_VERSION
 ARG REBAR3_DOWNLOAD_SHA256
@@ -7,7 +6,6 @@ ENV OTP_VERSION="21.3.8.6"
 
 LABEL otp.version=$OTP_VERSION
 LABEL rebar3.version=$REBAR3_VERSION
-LABEL alpine.version=$ALPINE_VERSION
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
