@@ -2,6 +2,8 @@ FROM debian:stretch
 
 ENV OTP_VERSION="22.0.7"
 
+LABEL otp.version=$OTP_VERSION
+
 # We'll install the build dependencies, and purge them on the last step to make
 # sure our final image contains only what we've just built:
 RUN set -xe \

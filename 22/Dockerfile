@@ -1,6 +1,10 @@
 FROM buildpack-deps:stretch
 
-ENV OTP_VERSION="22.0.7"
+ENV OTP_VERSION="22.0.7" \
+    REBAR3_VERSION="3.12.0"
+
+LABEL otp.version=$OTP_VERSION
+LABEL rebar3.version=$REBAR3_VERSION
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
@@ -51,11 +55,9 @@ RUN set -xe \
 	&& install -v ./rebar /usr/local/bin/ \
 	&& rm -rf /usr/src/rebar-src
 
-ENV REBAR3_VERSION="3.11.1"
-
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="a1822db5210b96b5f8ef10e433b22df19c5fc54dfd847bcaab86c65151ce4171" \
+	&& REBAR3_DOWNLOAD_SHA256="8ac45498f03e293bc6342ec431888f9a81a4fb9e1177a69965238d127c00a79e" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
