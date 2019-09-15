@@ -3,9 +3,7 @@ FROM alpine:3.10
 ENV OTP_VERSION="22.1" \
     REBAR3_VERSION="3.12.0"
 
-LABEL otp.version=$OTP_VERSION
-LABEL rebar3.version=$REBAR3_VERSION
-LABEL alpine.version=3.10
+LABEL org.opencontainers.image.version=$OTP_VERSION
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
