@@ -4,7 +4,7 @@
 
 [![Docker Stars](https://img.shields.io/docker/stars/_/erlang.svg?style=flat-square)](https://hub.docker.com/_/erlang/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/_/erlang.svg?style=flat-square)](https://hub.docker.com/_/erlang/)
-[![Image Layers](https://badge.imagelayers.io/erlang:latest.svg)](https://imagelayers.io/?images=erlang:latest 'Show Image Layers at imagelayers.io')
+[![Image Layers](https://images.microbadger.com/badges/image/erlang.svg)](https://microbadger.com/images/erlang "Get your own image badge on microbadger.com")
 
 [![Build Status](https://travis-ci.org/erlang/docker-erlang-otp.svg?branch=master)](https://travis-ci.org/erlang/docker-erlang-otp)
 
