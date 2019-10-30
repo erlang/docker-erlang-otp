@@ -32,7 +32,7 @@ RUN set -xe \
 	&& rm otp-src.tar.gz \
 	&& cd /usr/src/otp-src \
 	&& ./otp_build autoconf \
-	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	&& gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
 	&& ./configure --build="$gnuArch" \
 	&& make -j$(nproc) \
 	&& make install \

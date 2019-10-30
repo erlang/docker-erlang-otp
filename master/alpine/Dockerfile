@@ -28,7 +28,7 @@ RUN set -xe \
 	  && ./otp_build autoconf \
 	  && sed -i -e '/utils\/gen_git_version/c\\\
 	@echo GIT_VSN=-DERLANG_GIT_VERSION="\\"\\\\\\""'${OTP_VERSION#*@}'\\\\"\\"\\"" > $@' ./erts/emulator/Makefile.in \
-	  && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
+	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
 	  && ./configure --build="$gnuArch" \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
