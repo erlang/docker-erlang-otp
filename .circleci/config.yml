@@ -25,9 +25,10 @@ jobs:
           git clone https://github.com/docker-library/official-images.git ~/official-images
           export VARIANT=elixir/slim
           export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
+          export OTP20_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/20/slim/${CIRCLE_BRANCH}"
           export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
           docker login -u $DOCKER_USER -p $DOCKER_PASS images.scrapinghub.com
-          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG" "${VARIANT:-.}"
+          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG" --build-arg BASE_OTP="$OTP20_NAME:$IMAGE_TAG" "${VARIANT:-.}"
           ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG"
           docker push "$IMAGE_NAME:$IMAGE_TAG"
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
