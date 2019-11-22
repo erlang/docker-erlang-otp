@@ -10,28 +10,30 @@ jobs:
           docker_layer_caching: true
       - run: |
           [ -d ~/official-images ] || git clone https://github.com/docker-library/official-images.git ~/official-images
-          export VARIANT=20/slim
-          export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
+          export DIR=20
+          export VARIANT=slim
+          export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${DIR}/${CIRCLE_BRANCH}"
           export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
           docker login -u $DOCKER_USER -p $DOCKER_PASS images.scrapinghub.com
-          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG" "${VARIANT:-.}"
-          ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG"
-          docker push "$IMAGE_NAME:$IMAGE_TAG"
+          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG-$VARIANT" "$DIR/$VARIANT"
+          ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG-$VARIANT"
+          docker push "$IMAGE_NAME:$IMAGE_TAG-$VARIANT"
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            docker tag "$IMAGE_NAME:$IMAGE_TAG" "$IMAGE_NAME:latest"
+            docker tag "$IMAGE_NAME:$IMAGE_TAG-$VARIANT" "$IMAGE_NAME:latest"
             docker push "$IMAGE_NAME:latest"
           fi
       - run: |
           [ -d ~/official-images ] || git clone https://github.com/docker-library/official-images.git ~/official-images
-          export VARIANT=elixir/slim
-          export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
-          export OTP20_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/20/slim/${CIRCLE_BRANCH}"
+          export DIR=elixir
+          export VARIANT=slim
+          export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${DIR}/${CIRCLE_BRANCH}"
+          export OTP20_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/20/${CIRCLE_BRANCH}"
           export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
           docker login -u $DOCKER_USER -p $DOCKER_PASS images.scrapinghub.com
-          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG" --build-arg BASE_OTP="$OTP20_NAME:$IMAGE_TAG" "${VARIANT:-.}"
-          ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG"
-          docker push "$IMAGE_NAME:$IMAGE_TAG"
+          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG-$VARIANT" --build-arg BASE_OTP="$OTP20_NAME:$IMAGE_TAG" "$DIR/$VARIANT"
+          ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG-$VARIANT"
+          docker push "$IMAGE_NAME:$IMAGE_TAG-$VARIANT"
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            docker tag "$IMAGE_NAME:$IMAGE_TAG" "$IMAGE_NAME:latest"
+            docker tag "$IMAGE_NAME:$IMAGE_TAG-$VARIANT" "$IMAGE_NAME:latest"
             docker push "$IMAGE_NAME:latest"
           fi
