@@ -1,5 +1,7 @@
 FROM debian:stretch
 
+ADD keepcase.patch /
+
 ENV OTP_VERSION="20.3.8.24"
 
 # We'll install the build dependencies, and purge them on the last step to make
@@ -37,6 +39,7 @@ RUN set -xe \
 	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
 	&& rm otp-src.tar.gz \
 	&& ( cd $ERL_TOP \
+	  && patch -p1 < /keepcase.patch \
 	  && ./otp_build autoconf \
 	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
 	  && ./configure --build="$gnuArch" \
