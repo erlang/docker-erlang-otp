@@ -1,0 +1,36 @@
+---
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/elixir:1.9
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          git clone https://github.com/docker-library/official-images.git ~/official-images
+          export VARIANT=20/slim
+          export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
+          export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
+          docker login -u $DOCKER_USER -p $DOCKER_PASS images.scrapinghub.com
+          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG" "${VARIANT:-.}"
+          ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG"
+          docker push "$IMAGE_NAME:$IMAGE_TAG"
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            docker tag "$IMAGE_NAME:$IMAGE_TAG" "$IMAGE_NAME:latest"
+            docker push "$IMAGE_NAME:latest"
+          fi
+      - run: |
+          git clone https://github.com/docker-library/official-images.git ~/official-images
+          export VARIANT=elixir/slim
+          export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
+          export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
+          docker login -u $DOCKER_USER -p $DOCKER_PASS images.scrapinghub.com
+          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG" "${VARIANT:-.}"
+          ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG"
+          docker push "$IMAGE_NAME:$IMAGE_TAG"
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            docker tag "$IMAGE_NAME:$IMAGE_TAG" "$IMAGE_NAME:latest"
+            docker push "$IMAGE_NAME:latest"
+          fi
