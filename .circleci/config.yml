@@ -3,13 +3,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/elixir:1.9
+      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
-          git clone https://github.com/docker-library/official-images.git ~/official-images
+          [ -d ~/official-images ] || git clone https://github.com/docker-library/official-images.git ~/official-images
           export VARIANT=20/slim
           export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
           export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
@@ -22,7 +22,7 @@ jobs:
             docker push "$IMAGE_NAME:latest"
           fi
       - run: |
-          git clone https://github.com/docker-library/official-images.git ~/official-images
+          [ -d ~/official-images ] || git clone https://github.com/docker-library/official-images.git ~/official-images
           export VARIANT=elixir/slim
           export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${VARIANT}/${CIRCLE_BRANCH}"
           export OTP20_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/20/slim/${CIRCLE_BRANCH}"
