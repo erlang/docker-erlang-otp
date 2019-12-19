@@ -1,4 +1,4 @@
-FROM buildpack-deps:stretch
+FROM buildpack-deps:buster
 
 ENV OTP_VERSION="23.0-rc0@f633fe9"
 

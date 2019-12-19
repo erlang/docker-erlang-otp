@@ -1,4 +1,4 @@
-FROM buildpack-deps:stretch
+FROM buildpack-deps:buster
 
 ENV OTP_VERSION="22.2" \
     REBAR3_VERSION="3.12.0"

@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 
 ENV OTP_VERSION="22.2"
 
