@@ -1,6 +1,6 @@
 FROM debian:buster
 
-ENV OTP_VERSION="22.2.8"
+ENV OTP_VERSION="22.3"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="71f73ddd59db521928a0f6c8d4354d6f4e9f4bfbd0b40d321cd5253a6c79b095" \
+	&& OTP_DOWNLOAD_SHA256="886e6dbe1e4823c7e8d9c9c1ba8315075a1a9f7717f5a1eaf3b98345ca6c798e" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
