@@ -10,7 +10,7 @@ jobs:
           docker_layer_caching: true
       - run: |
           [ -d ~/official-images ] || git clone https://github.com/docker-library/official-images.git ~/official-images
-          export DIR=20
+          export DIR=23
           export VARIANT=slim
           export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${DIR}/${CIRCLE_BRANCH}"
           export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
@@ -27,10 +27,10 @@ jobs:
           export DIR=elixir
           export VARIANT=slim
           export IMAGE_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/${DIR}/${CIRCLE_BRANCH}"
-          export OTP20_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/20/${CIRCLE_BRANCH}"
+          export OTP23_NAME="images.scrapinghub.com/crawlera/docker-erlang-otp/23/${CIRCLE_BRANCH}"
           export IMAGE_TAG="${CIRCLE_SHA1:0:7}"
           docker login -u $DOCKER_USER -p $DOCKER_PASS images.scrapinghub.com
-          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG-$VARIANT" --build-arg BASE_OTP="$OTP20_NAME:$IMAGE_TAG" "$DIR/$VARIANT"
+          docker build --pull -t "$IMAGE_NAME:$IMAGE_TAG-$VARIANT" --build-arg BASE_OTP="$OTP23_NAME:$IMAGE_TAG" "$DIR/$VARIANT"
           ~/official-images/test/run.sh "$IMAGE_NAME:$IMAGE_TAG-$VARIANT"
           docker push "$IMAGE_NAME:$IMAGE_TAG-$VARIANT"
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
