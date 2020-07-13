@@ -59,7 +59,7 @@ for version in "${versions[@]}"; do
 
 	fullVersion="$(git show "$commit":"$version/Dockerfile" | extractVersion)"
 
-	versionAliases=( $fullVersion )
+	versionAliases=( $fullVersion "immutable-$fullVersion")
 	while :; do
 		localVersion="${fullVersion%.*}"
 		if [ "$localVersion" = "$version" ]; then
