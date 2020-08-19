@@ -9,35 +9,31 @@
 [![Build Status](https://travis-ci.org/erlang/docker-erlang-otp.svg?branch=master)](https://travis-ci.org/erlang/docker-erlang-otp)
 
 This is used as docker base image for Erlang OTP.
-The goal is to provide images for a few last erlang releases (currently 21/ 20 / 19 / 18), in close to full feature Erlang OTP, and relatively slim images. Support to 17, R16 and R15 are provided in this repo on a best-effort basis, and not part of official-image effort in docker-library/official-images#1075 .
+The goal is to provide images for a few last erlang releases (currently 23/ 22/ 21/ 20 / 19 / 18), in close to full feature Erlang OTP, and relatively slim images. Support to 17, R16 and R15 are provided in this repo on a best-effort basis, and not part of official-image effort in docker-library/official-images#1075 .
 
-### use the Erlang 21
+### use the Erlang 23
 
-here is providing the latest Erlang 21 image; you may pull from official-images or build it locally:
+here is providing the latest Erlang 23 image; you may pull from official-images or build it locally:
 
 ```console
-$ docker build -t erlang:21.0 ./21
+$ docker build -t erlang:23.0 ./23
 [...]
-➸ docker run -it --rm erlang:21.0
-Erlang/OTP 21 [erts-10.0] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:10] [hipe] [kernel-poll:false]
+➸ docker run -it --rm erlang:23.0
+Erlang/OTP 23 [erts-11.0.3] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-threads:1] [hipe]
 
-Eshell V10.0  (abort with ^G)
+Eshell V11.0.3  (abort with ^G)
 1> erlang:system_info(otp_release).
-"21"
+"23"
 2> os:getenv().
-["PWD=/","REBAR3_VERSION=3.5.3",
-"ROOTDIR=/usr/local/lib/erlang","LANG=C.UTF-8",
-"PATH=/usr/local/lib/erlang/erts-10.0/bin:/usr/local/lib/erlang/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-"REBAR_VERSION=2.6.4","TERM=xterm",
-"BINDIR=/usr/local/lib/erlang/erts-10.0/bin","PROGNAME=erl",
-"EMU=beam","OTP_VERSION=21.0","HOME=/root",
-"HOSTNAME=9b1e7f4d7206"]
+["PROGNAME=erl","ROOTDIR=/usr/local/lib/erlang",
+ "TERM=xterm","REBAR3_VERSION=3.13.2","REBAR_VERSION=2.6.4",
+ "PWD=/","HOSTNAME=bc9486c9549b","OTP_VERSION=23.0.3",
+ "PATH=/usr/local/lib/erlang/erts-11.0.3/bin:/usr/local/lib/erlang/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+ "EMU=beam","HOME=/root", 
+ "BINDIR=/usr/local/lib/erlang/erts-11.0.3/bin"]
 3> 'hello_юникод_世界'.                                   % Erlang20 now support unicode in atom
 'hello_юникод_世界'
-4> io:format("~tp~n", [{'hello_юникод', <<"Hello, 世界; юникод"/utf8>>, "Hello, 世界; юникод"}]).
-{'hello_юникод',<<"Hello, 世界; юникод"/utf8>>,"Hello, 世界; юникод"}
-ok
-5> try 1/0 catch C:R:Stacktrace -> logger:error("caught: ~tp~n", [{C,R,Stacktrace}]) end. %% Erlang 21 now has new API for logging, logger
+4> try 1/0 catch C:R:Stacktrace -> logger:error("caught: ~tp~n", [{C,R,Stacktrace}]) end. %% Erlang 21 now has new API for logging, logger
 =ERROR REPORT==== 20-Jun-2018::07:23:13.384474 ===
 caught: {error,badarith,
                [{erlang,'/',[1,0],[]},
@@ -62,29 +58,29 @@ Read from https://github.com/erlang/otp/releases for each tag description as rel
 
 ### Design
 
-1. the standard variant `erlang:21`, `erlang:20`, `erlang:19`, `erlang:18`, builds from source code,
-   based on [`buildpack-deps:stretch`](https://hub.docker.com/_/buildpack-deps/);
+1. the standard variant `erlang:23` and `erlang:22` builds from source code, based on [`buildpack-deps:buster`](https://hub.docker.com/_/buildpack-deps/); (releases before `erlang:22` builds using [`buildpack-deps:stretch`](https://hub.docker.com/_/buildpack-deps/))
    it covered gcc compiler and some popular -dev packages, for those erlang port drivers written in C; while it doesn't have java compiler so jinterface doesn't compile, assuming demand to write java code for erlang applications is low;
-2. the `-onbuild` variant is deprecated; for more details, see [docker-library/official-images#2076](https://github.com/docker-library/official-images/issues/2076).
-3. the slim version is built from `debian:stretch` install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, to shrink image size;
+3. the slim version is built from `debian:buster` install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, to shrink image size;
 4. the alpine version is built from last alpine stable image, install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, also removed src/\*.erl include/\*.hrl / all docs (include man info) / examples / static archives / build and unittest tools, and strip the ELF binaries, to get a really slim image, ideally smaller than 20MB;
-5. rebar and rebar3 tool is bundled in `erlang:21`, `erlang:20`, `erlang:19` and `erlang:18` image;
+5. rebar and rebar3 tool is bundled in `erlang:23`, `erlang:22`, `erlang:21`, `erlang:20`, `erlang:19` and `erlang:18` image;
 
 ### Sizes
 
 ```console
 $ docker images --filter=reference='erlang:*'
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-erlang              21.0-alpine         288ccf67e12b        7 hours ago         71.1MB
-erlang              21.0-slim           ebc139e56d88        7 hours ago         254MB
-erlang              21.0                76f0c5e69a48        7 hours ago         1.06GB
-erlang              20.3-alpine         4427af07b1fe        5 days ago          75.5MB
-erlang              20.3-slim           a5da071ec577        5 days ago          263MB
-erlang              20.3                b6e79a9bd68a        5 days ago          1.07GB
-erlang              18.3                91333142fa40        2 weeks ago         754MB
-erlang              19.3                2ea95f0c3147        2 weeks ago         886MB
-erlang              18.3-slim           f82b65021cfc        2 weeks ago         287MB
-erlang              19.3-slim           4f720aaec27c        2 weeks ago         440MB
+erlang              23.0                37433d089268        13 days ago         1.22GB
+erlang              23.0-slim           372b42eed86b        2 weeks ago         257MB
+erlang              23.0-alpine         db7cf4f98f42        4 weeks ago         68.7MB
+erlang              22.3                c77ded78275c        13 hours ago        1.22GB
+erlang              22.3-slim           ca5dbe8a4a46        13 hours ago        255MB
+erlang              22.3-alpine         661e530efb37        13 hours ago        68.9MB
+erlang              21.3                537ac956d5d6        13 days ago         1.07GB
+erlang              21.3-slim           5ffbb00d3118        2 weeks ago         251MB
+erlang              21.3-alpine         263294b72a1f        2 weeks ago         73.4MB
+erlang              20.3                82c4e39617a9        13 days ago         1.07GB
+erlang              20.3-slim           3e123645dc80        2 weeks ago         259MB
+erlang              20.3-alpine         78861bbea4a0        3 months ago        77.3MB
 ```
 
 ### Running
