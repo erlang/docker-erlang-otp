@@ -42,6 +42,30 @@ caught: {error,badarith,
                 {shell,exprs,7,[{file,"shell.erl"},{line,686}]},
                 {shell,eval_exprs,7,[{file,"shell.erl"},{line,642}]},
                 {shell,eval_loop,3,[{file,"shell.erl"},{line,627}]}]}
+5> h(lists,foldl). %% Erlang 23 now has the documentation in the shell
+
+  -spec foldl(Fun, Acc0, List) -> Acc1
+                 when
+                     Fun :: fun((Elem :: T, AccIn) -> AccOut),
+                     Acc0 :: term(),
+                     Acc1 :: term(),
+                     AccIn :: term(),
+                     AccOut :: term(),
+                     List :: [T],
+                     T :: term().
+
+  Calls Fun(Elem, AccIn) on successive elements A of List,
+  starting with AccIn == Acc0. Fun/2 must return a new
+  accumulator, which is passed to the next call. The function
+  returns the final value of the accumulator. Acc0 is returned if
+  the list is empty.
+
+  Example:
+
+    > lists:foldl(fun(X, Sum) -> X + Sum end, 0, [1,2,3,4,5]).
+    15
+    > lists:foldl(fun(X, Prod) -> X * Prod end, 1, [1,2,3,4,5]).
+    120
 
 ok
 ```
@@ -59,6 +83,7 @@ Read from https://github.com/erlang/otp/releases for each tag description as rel
 ### Design
 
 1. the standard variant `erlang:23` and `erlang:22` builds from source code, based on [`buildpack-deps:buster`](https://hub.docker.com/_/buildpack-deps/); (releases before `erlang:22` builds using [`buildpack-deps:stretch`](https://hub.docker.com/_/buildpack-deps/))
+   `erlang:23.1` and later contains documentation that can be accessed in the shell
    it covered gcc compiler and some popular -dev packages, for those erlang port drivers written in C; while it doesn't have java compiler so jinterface doesn't compile, assuming demand to write java code for erlang applications is low;
 3. the slim version is built from `debian:buster` install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, to shrink image size;
 4. the alpine version is built from last alpine stable image, install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, also removed src/\*.erl include/\*.hrl / all docs (include man info) / examples / static archives / build and unittest tools, and strip the ELF binaries, to get a really slim image, ideally smaller than 20MB;
