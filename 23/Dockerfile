@@ -30,7 +30,8 @@ RUN set -xe \
 	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
 	  && ./configure --build="$gnuArch" \
 	  && make -j$(nproc) \
-	  && make install ) \
+	  && make -j$(nproc) docs DOC_TARGETS=chunks \
+	  && make install install-docs DOC_TARGETS=chunks ) \
 	&& find /usr/local -name examples | xargs rm -rf \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& rm -rf $ERL_TOP /var/lib/apt/lists/*
