@@ -26,10 +26,10 @@ Eshell V11.0.3  (abort with ^G)
 "23"
 2> os:getenv().
 ["PROGNAME=erl","ROOTDIR=/usr/local/lib/erlang",
- "TERM=xterm","REBAR3_VERSION=3.13.2","REBAR_VERSION=2.6.4",
+ "TERM=xterm","REBAR3_VERSION=3.14.3","REBAR_VERSION=2.6.4",
  "PWD=/","HOSTNAME=bc9486c9549b","OTP_VERSION=23.0.3",
  "PATH=/usr/local/lib/erlang/erts-11.0.3/bin:/usr/local/lib/erlang/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
- "EMU=beam","HOME=/root", 
+ "EMU=beam","HOME=/root",
  "BINDIR=/usr/local/lib/erlang/erts-11.0.3/bin"]
 3> 'hello_юникод_世界'.                                   % Erlang20 now support unicode in atom
 'hello_юникод_世界'
