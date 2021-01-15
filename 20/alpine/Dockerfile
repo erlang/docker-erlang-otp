@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.12
 
 ENV OTP_VERSION="20.3.8.26" \
      REBAR3_VERSION="3.14.3"
@@ -32,7 +32,7 @@ RUN set -xe \
 	&& ( cd $ERL_TOP \
 	  && ./otp_build autoconf \
 	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
-	  && ./configure --build="$gnuArch" \
+	  && ./configure --build="$gnuArch" --disable-hipe \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \

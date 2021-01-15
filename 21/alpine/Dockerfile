@@ -1,13 +1,13 @@
-FROM alpine:3.9
+FROM alpine:3.13
 
-ENV OTP_VERSION="21.3.8.19" \
+ENV OTP_VERSION="21.3.8.20" \
     REBAR3_VERSION="3.14.3"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="0105aa8715ad00d990cc11fc8a5160675b56ae3fc96cfb21600a7d51e5161a93" \
+	&& OTP_DOWNLOAD_SHA256="7ed3b3c149add9f847144d507ffc411d63a212523539789e9d73d19edcf5aa16" \
 	&& REBAR3_DOWNLOAD_SHA256="69024b30f17b52c61e5e0568cbf9a2db325eb646ae230c48858401507394f5c0" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
@@ -34,7 +34,7 @@ RUN set -xe \
 	&& ( cd $ERL_TOP \
 	  && ./otp_build autoconf \
 	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
-	  && ./configure --build="$gnuArch" \
+	  && ./configure --build="$gnuArch" --disable-hipe \
 	  && make -j$(getconf _NPROCESSORS_ONLN) \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
