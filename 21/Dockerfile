@@ -1,6 +1,6 @@
 FROM buildpack-deps:stretch
 
-ENV OTP_VERSION="21.3.8.20" \
+ENV OTP_VERSION="21.3.8.21" \
     REBAR3_VERSION="3.14.3"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="7ed3b3c149add9f847144d507ffc411d63a212523539789e9d73d19edcf5aa16" \
+	&& OTP_DOWNLOAD_SHA256="47a0edb246c267f905564245ca3019e8491db5537dfa5441dc5031a4d091ea15" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0' \
