@@ -6,7 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/_/erlang.svg?style=flat-square)](https://hub.docker.com/_/erlang/)
 [![Image Layers](https://images.microbadger.com/badges/image/erlang.svg)](https://microbadger.com/images/erlang "Get your own image badge on microbadger.com")
 
-[![Build Status](https://img.shields.io/github/workflow/status/erlang/docker-erlang-otp/CI?style=square)](https://github.com/erlang/docker-erlang-otp/actions/workflows/main.yml)
+[![Build Status](https://github.com/erlang/docker-erlang-otp/workflows/erlang/badge.svg)](https://github.com/erlang/docker-erlang-otp/actions)
 
 This is used as docker base image for Erlang OTP.
 The goal is to provide images for a few last erlang releases (currently 23/ 22/ 21/ 20 / 19 / 18), in close to full feature Erlang OTP, and relatively slim images. Support to 17, R16 and R15 are provided in this repo on a best-effort basis, and not part of official-image effort in docker-library/official-images#1075 .

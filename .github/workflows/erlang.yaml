@@ -1,12 +1,6 @@
-name: Docker
+name: erlang
 
-on:
-  push:
-  pull_request:
-    branches: [ $default-branch ]
-  release:
-    types:
-      - created
+on: [push, pull_request]
 
 jobs:
   docker:
