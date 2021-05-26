@@ -1,6 +1,7 @@
 FROM debian:stretch
 
-ENV OTP_VERSION="21.3.8.23"
+ENV OTP_VERSION="21.3.8.23" \
+    REBAR3_VERSION="3.15.2"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
@@ -45,6 +46,17 @@ RUN set -xe \
 	  && make -j$(nproc) \
 	  && make install ) \
 	&& find /usr/local -name examples | xargs rm -rf \
+	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
+	&& REBAR3_DOWNLOAD_SHA256="11b6bead835421a276e287562588580b63ac1c8dcb0e3c51f674887e4ab395cd" \
+	&& mkdir -p /usr/src/rebar3-src \
+	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
+	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
+	&& tar -xzf rebar3-src.tar.gz -C /usr/src/rebar3-src --strip-components=1 \
+	&& rm rebar3-src.tar.gz \
+	&& cd /usr/src/rebar3-src \
+	&& HOME=$PWD ./bootstrap \
+	&& install -v ./rebar3 /usr/local/bin/ \
+	&& rm -rf /usr/src/rebar3-src \
 	&& apt-get purge -y --auto-remove $buildDeps $fetchDeps \
 	&& rm -rf $ERL_TOP /var/lib/apt/lists/*
 
