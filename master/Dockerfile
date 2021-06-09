@@ -1,13 +1,13 @@
 FROM buildpack-deps:buster
 
-ENV OTP_VERSION="24@18c087f" \
+ENV OTP_VERSION="24@06b8c83" \
     REBAR3_VERSION="3.16.1"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/${OTP_VERSION#*@}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="35c28cff4da653227bbb99f58ac4a043fa551e1b22c73f0b1c2f12f5c3bc2a17" \
+	&& OTP_DOWNLOAD_SHA256="c69b3e16089a60f4ee325b32c1af4e308741d384f4a895cf2e75c38377a8d597" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0' \
