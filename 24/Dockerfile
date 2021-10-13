@@ -1,4 +1,4 @@
-FROM buildpack-deps:buster
+FROM buildpack-deps:bullseye
 
 ENV OTP_VERSION="24.1.2" \
     REBAR3_VERSION="3.17.0"
