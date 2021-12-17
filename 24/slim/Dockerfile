@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 ENV OTP_VERSION="24.2" \
     REBAR3_VERSION="3.17.0"

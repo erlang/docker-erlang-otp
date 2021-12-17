@@ -1,4 +1,4 @@
-FROM buildpack-deps:buster
+FROM buildpack-deps:bullseye
 
 ENV OTP_VERSION="24.2" \
     REBAR3_VERSION="3.17.0"
@@ -15,7 +15,7 @@ RUN set -xe \
 			libwxgtk3.0' \
 	&& buildDeps='unixodbc-dev \
 			libsctp-dev \
-			libwxgtk3.0-dev' \
+			libwxgtk3.0-gtk3-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
