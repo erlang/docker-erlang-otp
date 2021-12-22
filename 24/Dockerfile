@@ -15,7 +15,7 @@ RUN set -xe \
 			libwxgtk3.0' \
 	&& buildDeps='unixodbc-dev \
 			libsctp-dev \
-			libwxgtk3.0-gtk3-dev' \
+			libwxgtk-webview3.0-gtk3-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
