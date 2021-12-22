@@ -57,7 +57,7 @@ jobs:
 
           $windows_tag = ($from_image_name.Split("/") + $from_image_tag) -join "-"
           $otp_tag = @($otp_version, $windows_tag) -join "-"
-          $image= "erlang:${otp_tag}"
+          $image = "erlang:${otp_tag}"
 
           docker build `
             --build-arg "OTP_VERSION=$otp_version" `
