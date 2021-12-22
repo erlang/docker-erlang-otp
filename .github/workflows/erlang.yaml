@@ -55,6 +55,9 @@ jobs:
           $from_image = "mcr.microsoft.com/${from_image_name}:${from_image_tag}"
           $build_image = "mcr.microsoft.com/${from_image_name}:${from_image_tag}"
 
+          $otp_version = "${{ matrix.otp.version }}"
+          $otp_hash = "${{ matrix.otp.hash }}"
+
           $windows_tag = ($from_image_name.Split("/") + $from_image_tag) -join "-"
           $otp_tag = @($otp_version, $windows_tag) -join "-"
           $image = "erlang:${otp_tag}"
