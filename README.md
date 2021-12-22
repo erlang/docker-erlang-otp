@@ -9,7 +9,7 @@
 [![Build Status](https://github.com/erlang/docker-erlang-otp/workflows/erlang/badge.svg)](https://github.com/erlang/docker-erlang-otp/actions)
 
 This is used as docker base image for Erlang OTP.
-The goal is to provide images for a few last erlang releases (currently 24 / 23 / 22 / 21 / 20 / 19 / 18), in close to full feature Erlang OTP, and relatively slim images. Support to 17, R16 and R15 are provided in this repo on a best-effort basis, and not part of official-image effort in docker-library/official-images#1075 .
+The goal is to provide images for a few last erlang releases (currently 24 / 23 / 22 / 21 / 20 / 19 / 18), in close to full feature Erlang OTP, and relatively slim images. Support to 17, R16 and R15 are provided in this repo on a best-effort basis, and not part of official-image effort in docker-library/official-images#1075 .  Windows container based images are available for OTP 24 + with `windows` and `windows/servercore` base images (`windows/nanoserver` is not yet supported).
 
 ### use the Erlang 23
 
@@ -88,6 +88,7 @@ Read from https://github.com/erlang/otp/releases for each tag description as rel
 3. the slim version is built from `debian:buster` install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, to shrink image size;
 4. the alpine version is built from last alpine stable image, install building tools (compilers & -dev packages) on the fly and uninstall after compilation finished, also removed src/\*.erl include/\*.hrl / all docs (include man info) / examples / static archives / build and unittest tools, and strip the ELF binaries, to get a really slim image, ideally smaller than 20MB;
 5. rebar and rebar3 tool is bundled in `erlang:23`, `erlang:22`, `erlang:21`, `erlang:20`, `erlang:19` and `erlang:18` image;
+6. Windows variants are not built and instead are sourced from the official Windows installer.  Images are tagged with the Windows base image name and operating system version, since the container OS and host OS versions must match when using Windows containers.
 
 ### Sizes
 
