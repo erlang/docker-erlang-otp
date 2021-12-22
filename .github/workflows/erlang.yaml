@@ -62,13 +62,18 @@ jobs:
           $otp_tag = @($otp_version, $windows_tag) -join "-"
           $image = "erlang:${otp_tag}"
 
+          $dir = $otp_version.Split(".")[0]
+          $variant = "windows"
+
+          cd $dir
+
           docker build `
             --build-arg "OTP_VERSION=$otp_version" `
             --build-arg "OTP_HASH=$otp_hash" `
             --build-arg "FROM_IMAGE=$from_image" `
             --build-arg "BUILD_IMAGE=$build_image" `
             -t $image `
-            .
+            $variant
 
           # It looks like the official images repo does contain some level of support for testing
           # windows images but I'm not certain how this should be implemented.
