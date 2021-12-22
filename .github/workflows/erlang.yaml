@@ -50,9 +50,10 @@ jobs:
           #   * The base image OS version _must_ be the same as the host OS.  Therefore it's
           #     important to include the OS version in the docker tag.
           #   * Nanoserver variants omit huge amounts, so a separate build stage is required.
+          $from_image_name = "${{ matrix.from-image-name }}"
           $from_image_tag = "${{ matrix.from-image-tag }}"
-          $from_image = "mcr.microsoft.com/${{ matrix.from-image-name }}:$from_image_tag"
-          $build_image = "mcr.microsoft.com/${{ matrix.from-image-name }}:$from_image_tag"
+          $from_image = "mcr.microsoft.com/$from_image_name:$from_image_tag"
+          $build_image = "mcr.microsoft.com/$from_image_name:$from_image_tag"
 
           $windows_tag = ($from_image_name.Split("/") + $from_image_tag) -join "-"
           $otp_tag = @($otp_version, $windows_tag) -join "-"
