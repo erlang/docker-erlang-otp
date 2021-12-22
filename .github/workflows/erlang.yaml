@@ -53,7 +53,7 @@ jobs:
           $from_image_name = "${{ matrix.from-image-name }}"
           $from_image_tag = "${{ matrix.from-image-tag }}"
           $from_image = "mcr.microsoft.com/${from_image_name}:${from_image_tag}"
-          $build_image = "mcr.microsoft.com/${from_image_name}:${from_image_tag}"
+          $build_image = "mcr.microsoft.com/windows:${from_image_tag}"
 
           $otp_version = "${{ matrix.otp.version }}"
           $otp_hash = "${{ matrix.otp.hash }}"
