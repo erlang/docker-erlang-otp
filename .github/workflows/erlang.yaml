@@ -27,3 +27,45 @@ jobs:
            docker build --pull -t "$image" "${VARIANT:-.}"
            ~/official-images/test/run.sh "$image"
            docker images
+  docker-win:
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+        from-image-name:
+          - windows
+          - windows/servercore
+        from-image-tag:
+          - "10.0.17763.2114"
+        otp:
+          - version: "24.2"
+            hash: "C22052C4920F06A9044F514A427B1C4116DA6DB6D6D6070EEDEB2955F1F6869B"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          # Windows docker builds must take into account two extra things:
+          #   * The base image OS version _must_ be the same as the host OS.  Therefore it's
+          #     important to include the OS version in the docker tag.
+          #   * Nanoserver variants omit huge amounts, so a separate build stage is required.
+          $from_image = "mcr.microsoft.com/${{ matrix.from-image-name }}:${{ matrix.from-image-tag }}"
+          $build_image = "mcr.microsoft.com/${{ matrix.from-image-name }}:${{ matrix.from-image-tag }}"
+
+          $windows_tag = ($from_image_name.Split("/") + $from_image_tag) -join "-"
+          $otp_tag = @($otp_version, $windows_tag) -join "-"
+          $image= "erlang:${otp_tag}"
+
+          docker build `
+            --build-arg "OTP_VERSION=$otp_version" `
+            --build-arg "OTP_HASH=$otp_hash" `
+            --build-arg "FROM_IMAGE=$from_image" `
+            --build-arg "BUILD_IMAGE=$build_image" `
+            -t $image `
+            .
+
+          # It looks like the official images repo does contain some level of support for testing
+          # windows images but I'm not certain how this should be implemented.
+
+          docker images
