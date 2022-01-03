@@ -1,7 +1,7 @@
 FROM buildpack-deps:buster
 
 ENV OTP_VERSION="24@7de19bb" \
-    REBAR3_VERSION="3.16.1"
+    REBAR3_VERSION="3.18.0"
 
 # We'll install the build dependencies for erlang-odbc along with the erlang
 # build process:
@@ -55,7 +55,7 @@ RUN set -xe \
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="a14711b09f6e1fc1b080b79d78c304afebcbb7fafed9d0972eb739f0ed89121b" \
+	&& REBAR3_DOWNLOAD_SHA256="cce1925d33240d81d0e4d2de2eef3616d4c17b0532ed004274f875e6607d25d2" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
