@@ -78,7 +78,7 @@ ok
    https://github.com/c0b/docker-elixir/wiki/use-observer
 2. dirty scheduler is enabled since Erlang 19 images;
 
-Read from https://github.com/erlang/otp/releases for each tag description as release annoucement.
+Read from https://github.com/erlang/otp/releases for each tag description as release announcement.
 
 ### Design
 
