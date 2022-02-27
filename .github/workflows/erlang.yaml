@@ -8,8 +8,8 @@ jobs:
     strategy:
       matrix:
         otp: ['DIR=master', 'DIR=master VARIANT=alpine',
-              'DIR=25', 'DIR=25 VARIANT=slim', 'DIR=25 VARIANT=alpine',
-              'DIR=24', 'DIR=24 VARIANT=slim', 'DIR=24 VARIANT=alpine',
+              'DIR=25', 'DIR=25 VARIANT=slim', 'DIR=25 VARIANT=alpine', 'DIR=25 VARIANT=no-jit',
+              'DIR=24', 'DIR=24 VARIANT=slim', 'DIR=24 VARIANT=alpine', 'DIR=24 VARIANT=no-jit',
               'DIR=23',' DIR=23 VARIANT=slim', 'DIR=23 VARIANT=alpine',
               'DIR=22', 'DIR=22 VARIANT=slim', 'DIR=22 VARIANT=alpine',
               'DIR=21', 'DIR=21 VARIANT=slim', 'DIR=21 VARIANT=alpine',
