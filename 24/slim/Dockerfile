@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-ENV OTP_VERSION="24.3.1" \
+ENV OTP_VERSION="24.3.2" \
     REBAR3_VERSION="3.18.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="fb6f7c878c538d56588542abe1f069a29fecdbbca9701596a2d17636a0889db9" \
+	&& OTP_DOWNLOAD_SHA256="cdc9cf788d28a492eb6b24881fbd06a0a5c785dc374ad415b3be1db96326583c" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
