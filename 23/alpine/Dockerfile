@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.16
 
 ENV OTP_VERSION="23.3.4.14" \
     REBAR3_VERSION="3.18.0"
