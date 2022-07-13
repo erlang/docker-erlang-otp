@@ -12,7 +12,8 @@ RUN set -xe \
 	&& OTP_DOWNLOAD_SHA256="e8eca69b6bdaac9cc8f3e3177dd2913920513495ee83bdecf73af546768febd6" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
-			libwxgtk3.0' \
+			libwxgtk3.0 \
+			libwxgtk-webview3.0-gtk3-0v5' \
 	&& buildDeps='unixodbc-dev \
 			libsctp-dev \
 			libwxgtk-webview3.0-gtk3-dev' \
