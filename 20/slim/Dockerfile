@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 
 ENV OTP_VERSION="20.3.8.26" \
     REBAR3_VERSION="3.15.2"
