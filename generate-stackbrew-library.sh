@@ -94,7 +94,7 @@ for version in "${versions[@]}"; do
 		variantArches=( amd64 arm32v7 arm64v8 i386 s390x ppc64le )
 
 		case "$version" in
-		    21|20|19|18)
+		    23|22|21|20|19|18)
 				variantArches=( ${variantArches[@]/s390x} )
 				variantArches=( ${variantArches[@]/ppc64le} )
 		esac
