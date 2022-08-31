@@ -91,12 +91,13 @@ for version in "${versions[@]}"; do
 			variantAliases=( "${variantAliases[@]//latest-/}" )
 		fi
 
-		variantArches=( amd64 arm32v7 arm64v8 i386 s390x ppc64le )
+		variantArches=( amd64 arm32v5 arm32v7 arm64v8 i386 mips64le ppc64le s390x)
 
 		case "$version" in
 		    23|22|21|20|19|18)
 				variantArches=( ${variantArches[@]/s390x} )
 				variantArches=( ${variantArches[@]/ppc64le} )
+                variantArches=( ${variantArches[@]/mips64le} )
 		esac
 
 		echo
