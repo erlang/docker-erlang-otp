@@ -98,6 +98,13 @@ for version in "${versions[@]}"; do
 				variantArches=( ${variantArches[@]/s390x} )
 				variantArches=( ${variantArches[@]/ppc64le} )
                 variantArches=( ${variantArches[@]/mips64le} )
+                variantArches=( ${variantArches[@]/arm32v5} )
+		esac
+
+		case "$variant" in
+			alpine)
+				variantArches=( ${variantArches[@]/mips64le} )
+				variantArches=( ${variantArches[@]/arm32v5} )
 		esac
 
 		echo
