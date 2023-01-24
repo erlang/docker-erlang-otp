@@ -1,6 +1,6 @@
 FROM buildpack-deps:bullseye
 
-ENV OTP_VERSION="25.2" \
+ENV OTP_VERSION="25.2.1" \
     REBAR3_VERSION="3.19.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="d33a988f39e534aff67799c5b9635612858459c9d8890772546d71ea38de897a" \
+	&& OTP_DOWNLOAD_SHA256="d044e3699cb5261127da4bf37a495534bde85c37709f07735efc91f290f51da7" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0 \
