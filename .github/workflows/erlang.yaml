@@ -1,6 +1,6 @@
 name: erlang
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   docker:
@@ -11,13 +11,13 @@ jobs:
               'DIR=26', 'DIR=26 VARIANT=slim', 'DIR=26 VARIANT=alpine',
               'DIR=25', 'DIR=25 VARIANT=slim', 'DIR=25 VARIANT=alpine',
               'DIR=24', 'DIR=24 VARIANT=slim', 'DIR=24 VARIANT=alpine',
-              'DIR=23',' DIR=23 VARIANT=slim', 'DIR=23 VARIANT=alpine',
+              'DIR=23', 'DIR=23 VARIANT=slim', 'DIR=23 VARIANT=alpine',
               'DIR=22', 'DIR=22 VARIANT=slim', 'DIR=22 VARIANT=alpine',
               'DIR=21', 'DIR=21 VARIANT=slim',
               'DIR=20', 'DIR=20 VARIANT=slim']
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Build
       run: |
            ${{ matrix.otp }}
