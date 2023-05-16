@@ -3,7 +3,7 @@ set -eu
 
 declare -a -r versions=(26 25 24 23 22 21 20 )
 declare -A -r aliases=(
-	[25]='latest'
+	[26]='latest'
 )
 
 # get the most recent commit which modified any of "$@"
