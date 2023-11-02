@@ -1,0 +1,65 @@
+---
+"on":
+  workflow_dispatch:
+    inputs:
+      otp_version:
+        type: string
+        required: true
+      otp_download_sha256:
+        type: string
+        required: true
+
+jobs:
+  dockerfiles:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update Dockerfiles
+        env:
+          OTP_VERSION: ${{ github.event.inputs.otp_version }}
+          OTP_DOWNLOAD_SHA256: ${{ github.event.inputs.otp_download_sha256 }}
+        run: |
+          DIR=$(echo "${OTP_VERSION}" | cut -d"." -f1)
+          variants=("" "/alpine" "/slim")
+          for VARIANT in "${variants[@]}"; do
+              dockerfile=${DIR}${VARIANT}/Dockerfile
+              sed -i "s|OTP_VERSION=\".*\"|OTP_VERSION=\"${OTP_VERSION}\"|" "${dockerfile}"
+              sed -i "s|OTP_DOWNLOAD_SHA256=\".*\"|OTP_DOWNLOAD_SHA256=\"${OTP_DOWNLOAD_SHA256}\"|" "${dockerfile}"
+          done
+
+      # Requires <repo>settings/actions: Workflow permissions > Read and write permissions
+      # Requires <repo>settings/actions: Workflow permissions > Allow GitHub Actions to create and approve pull requests
+      - name: Approve and release images
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OTP_VERSION: ${{ github.event.inputs.otp_version }}
+        run: |
+          # Exit if no changes
+          if git diff --exit-code >/dev/null; then exit 0; fi
+
+          # Otherwise, create and merge a pull request...
+          git config user.name "GitHub Actions"
+          git config user.email "actions@user.noreply.github.com"
+          commit_msg="[automation] Update Dockerfiles for Erlang/OTP ${OTP_VERSION}"
+          new_branch="feature/otp-${OTP_VERSION}"
+
+          # Exit if branch already exists
+          branches=$(git branch -a)
+          if echo "${branches}" | grep "${new_branch}" >/dev/null; then exit; fi
+
+          git switch -c "${new_branch}"
+          git add .
+          git commit -m "${commit_msg}"
+          git push origin "${new_branch}"
+
+          pr=$(gh pr create -B master -t "${commit_msg}" -b "")
+          gh pr merge "${pr}" -s
+
+          git push origin --delete "${new_branch}"
+
+          # ... then ask the normal release cycle to occur
+          gh workflow run erlang.yaml \
+            --repo "${GITHUB_REPOSITORY}" \
+            --ref master
