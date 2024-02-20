@@ -1,6 +1,6 @@
-FROM buildpack-deps:bullseye
+FROM buildpack-deps:bookworm
 
-ENV OTP_VERSION="24.3.4.16" \
+ENV OTP_VERSION="27.0-rc1" \
     REBAR3_VERSION="3.22.1"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,14 +9,13 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="f434c19d62b29ad8ef5300a490b9ea9df9cbfdd497c68603b184d43448418fa2" \
+	&& OTP_DOWNLOAD_SHA256="e543ec72fd55ae0a8e7094a37e305e4de24d5c1b97044723cd67b74a74bbd32c" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
-			libwxgtk3.0 \
-			libwxgtk-webview3.0-gtk3-0v5' \
+			libwxgtk3.2 \
+			libwxgtk-webview3.2-dev  ' \
 	&& buildDeps='unixodbc-dev \
-			libsctp-dev \
-			libwxgtk-webview3.0-gtk3-dev' \
+			libsctp-dev ' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
