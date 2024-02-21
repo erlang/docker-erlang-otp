@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV OTP_VERSION="26.2.2" \
     REBAR3_VERSION="3.22.1"
@@ -19,7 +19,7 @@ RUN set -xe \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& runtimeDeps=' \
 		libodbc1 \
-		libssl1.1 \
+		libssl3 \
 		libsctp1 \
 	' \
 	&& buildDeps=' \
