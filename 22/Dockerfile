@@ -1,6 +1,6 @@
 FROM buildpack-deps:buster
 
-ENV OTP_VERSION="22.3.4.26" \
+ENV OTP_VERSION="22.3.4.27" \
     REBAR3_VERSION="3.20.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="b3dae5c212e75c0fa0b2af7bef754fcefda41b8e0b367e739d40f2609856297e" \
+	&& OTP_DOWNLOAD_SHA256="0fb5dc388a4d6f1c7c0e250b5a44466727f35794b0566cad4190cd7c68ca5062" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0' \
