@@ -1,7 +1,8 @@
 FROM buildpack-deps:buster
 
 ENV OTP_VERSION="22.3.4.27" \
-    REBAR3_VERSION="3.23.0"
+    REBAR3_VERSION="3.20.0" \
+    REBAR_VERSION="2.6.4"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
@@ -39,8 +40,6 @@ CMD ["erl"]
 
 # extra useful tools here: rebar & rebar3
 
-ENV REBAR_VERSION="2.6.4"
-
 RUN set -xe \
 	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION}.tar.gz" \
 	&& REBAR_DOWNLOAD_SHA256="577246bafa2eb2b2c3f1d0c157408650446884555bf87901508ce71d5cc0bd07" \
@@ -56,7 +55,7 @@ RUN set -xe \
 
 RUN set -xe \
 	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
-	&& REBAR3_DOWNLOAD_SHA256="00646b692762ffd340560e8f16486dbda840e1546749ee5a7f58feeb77e7b516" \
+	&& REBAR3_DOWNLOAD_SHA256="53ed7f294a8b8fb4d7d75988c69194943831c104d39832a1fa30307b1a8593de" \
 	&& mkdir -p /usr/src/rebar3-src \
 	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
 	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
