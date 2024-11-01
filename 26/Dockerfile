@@ -1,7 +1,7 @@
 FROM buildpack-deps:bookworm
 
 ENV OTP_VERSION="26.2.5.2" \
-    REBAR3_VERSION="3.23.0"
+    REBAR3_VERSION="3.24.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
@@ -45,7 +45,7 @@ ENV REBAR_VERSION="2.6.4"
 
 RUN set -xe \
 	&& REBAR_DOWNLOAD_URL="https://github.com/rebar/rebar/archive/${REBAR_VERSION}.tar.gz" \
-	&& REBAR_DOWNLOAD_SHA256="577246bafa2eb2b2c3f1d0c157408650446884555bf87901508ce71d5cc0bd07" \
+	&& REBAR_DOWNLOAD_SHA256="391b0eaa2825bb427fef1e55a0d166493059175f57a33b00346b84a20398216c" \
 	&& mkdir -p /usr/src/rebar-src \
 	&& curl -fSL -o rebar-src.tar.gz "$REBAR_DOWNLOAD_URL" \
 	&& echo "$REBAR_DOWNLOAD_SHA256 rebar-src.tar.gz" | sha256sum -c - \
