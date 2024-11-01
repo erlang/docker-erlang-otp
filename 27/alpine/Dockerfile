@@ -1,7 +1,7 @@
 FROM alpine:3.19
 
 ENV OTP_VERSION="27.1.2" \
-    REBAR3_VERSION="3.23.0"
+    REBAR3_VERSION="3.24.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
