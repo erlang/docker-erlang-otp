@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-declare -a -r versions=(27 26 25 24)
+declare -a -r versions=(28 27 26 25 24)
 declare -A -r aliases=(
 	[27]='latest'
 )
