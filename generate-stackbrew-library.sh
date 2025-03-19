@@ -37,20 +37,29 @@ join() {
 
 extractVersion() {
   awk '
-        $1 == "ENV" && /_VERSION/ {
-        match($2, /"(.*)"/)
-        versionStr = substr($2, RSTART + 1, RLENGTH - 2)
-        versionStrLength = split(versionStr, versionStrArray, ".")
-        if(versionStrLength > 3) {
-            print versionStr
-        } else if(versionStrLength > 2){
-            print versionStr ".0"
-        } else {
-            print versionStr ".0.0"
-        }
-        exit
-      }'
+    $1 == "ENV" && /_VERSION/ {
+      match($2, /"(.*)"/)
+      versionStr = substr($2, RSTART + 1, RLENGTH - 2)
 
+      # Preserve release candidate (-rcX) if present
+      if (match(versionStr, /-rc[0-9]+$/)) {
+        rcPart = substr(versionStr, RSTART)
+        versionCore = substr(versionStr, 1, RSTART - 1)
+      } else {
+        rcPart = ""
+        versionCore = versionStr
+      }
+
+      versionStrLength = split(versionCore, versionStrArray, ".")
+      if (versionStrLength > 3) {
+        print versionCore rcPart
+      } else if (versionStrLength > 2) {
+        print versionCore ".0" rcPart
+      } else {
+        print versionCore ".0.0" rcPart
+      }
+      exit
+    }'
 }
 
 self="${BASH_SOURCE##*/}"
