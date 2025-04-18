@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # sure our final image contains only what we've just built:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/archive/OTP-${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="371e59b98de59822e45fdbe50c18c8d8dd4c872990e7aaaba8a819e167186d03" \
+	&& OTP_DOWNLOAD_SHA256="69cf6c2cc4e54e8d0bab8f9893f0b61dee10bff575c3535d47b6057a468751b1" \
 	&& fetchDeps=' \
 		curl \
 		ca-certificates' \
