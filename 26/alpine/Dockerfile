@@ -15,11 +15,12 @@ RUN set -xe \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& apk add --no-cache --virtual .build-deps \
+		   --repository=http://dl-cdn.alpinelinux.org/alpine/v3.12/main \
 		dpkg-dev dpkg \
 		gcc \
 		g++ \
 		libc-dev \
-		linux-headers \
+		linux-headers=5.4.5-r1 \
 		make \
 		autoconf \
 		ncurses-dev \
