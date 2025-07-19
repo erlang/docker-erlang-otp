@@ -1,6 +1,6 @@
 FROM buildpack-deps:bookworm
 
-ENV OTP_VERSION="27.3.4.1" \
+ENV OTP_VERSION="27.3.4.2" \
     REBAR3_VERSION="3.25.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # build process:
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/releases/download/OTP-${OTP_VERSION}/otp_src_${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="2672f0c52b9ff39695b9c8f99cd1846ed9e47e21cd5b045ccdd08719a3019652" \
+	&& OTP_DOWNLOAD_SHA256="f696dc22812745d98a87af2aa599ffa893c7cf8dfa16be8b31db0e30d8ffa85c" \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.2 \
