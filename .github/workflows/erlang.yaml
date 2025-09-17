@@ -7,8 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: ['DIR=master', 'DIR=master VARIANT=alpine',
-              'DIR=28', 'DIR=28 VARIANT=slim', 'DIR=28 VARIANT=alpine',
+        otp: ['DIR=28', 'DIR=28 VARIANT=slim', 'DIR=28 VARIANT=alpine',
               'DIR=27', 'DIR=27 VARIANT=slim', 'DIR=27 VARIANT=alpine',
               'DIR=26', 'DIR=26 VARIANT=slim', 'DIR=26 VARIANT=alpine',
               'DIR=25', 'DIR=25 VARIANT=slim', 'DIR=25 VARIANT=alpine']
