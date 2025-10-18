@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:trixie
 
 ENV OTP_VERSION="28.1" \
     REBAR3_VERSION="3.25.0"
@@ -18,7 +18,7 @@ RUN set -xe \
 	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
 	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
 	&& runtimeDeps=' \
-		libodbc1 \
+		libodbc2 \
 		libssl3 \
 		libsctp1 \
 	' \
