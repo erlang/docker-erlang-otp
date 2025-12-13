@@ -2,7 +2,7 @@
 set -eu
 
 declare -a -r versions=(28 27 26 25 24)
-declare -A -r aliases=(
+declare -a -r aliases=(
 	[28]='latest'
 )
 
@@ -104,10 +104,14 @@ for version in "${versions[@]}"; do
 
 		case "$version" in
 		    25|24|23|22|21|20|19|18)
-				variantArches=( ${variantArches[@]/s390x} )
-				variantArches=( ${variantArches[@]/ppc64le} )
-                variantArches=( ${variantArches[@]/mips64le} )
-                variantArches=( ${variantArches[@]/arm32v5} )
+				  variantArches=( ${variantArches[@]/s390x} )
+				  variantArches=( ${variantArches[@]/ppc64le} )
+				  variantArches=( ${variantArches[@]/mips64le} )
+				  variantArches=( ${variantArches[@]/arm32v5} )
+          ;;
+        28)
+          variantArches=( ${variantArches[@]/mips64le} )
+          ;;
 		esac
 
 		case "$variant" in
