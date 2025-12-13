@@ -1,4 +1,4 @@
-FROM buildpack-deps:bookworm
+FROM buildpack-deps:trixie
 
 ENV OTP_VERSION="28.3" \
     REBAR3_VERSION="3.25.0"
@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 RUN set -xe \
   && OTP_DOWNLOAD_URL="https://github.com/erlang/otp/releases/download/OTP-${OTP_VERSION}/otp_src_${OTP_VERSION}.tar.gz" \
 	&& OTP_DOWNLOAD_SHA256="1956ad6584678b631ab4f9b8aebe2dac037cd7401abb44564a01134ff0ac5bed" \
-	&& runtimeDeps='libodbc1 \
+	&& runtimeDeps='libodbc2 \
 			libsctp1 \
 			libwxgtk3.2 \
 			libwxgtk-webview3.2-dev  ' \
