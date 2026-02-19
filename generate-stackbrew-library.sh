@@ -109,7 +109,7 @@ for version in "${versions[@]}"; do
 				  variantArches=( ${variantArches[@]/mips64le} )
 				  variantArches=( ${variantArches[@]/arm32v5} )
           ;;
-        28)
+        29|28)
           variantArches=( ${variantArches[@]/mips64le} )
           ;;
 		esac
