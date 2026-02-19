@@ -1,0 +1,65 @@
+FROM debian:trixie
+
+ENV OTP_VERSION="29.0-rc1" \
+    REBAR3_VERSION="3.26.0"
+
+LABEL org.opencontainers.image.version=$OTP_VERSION
+
+# We'll install the build dependencies, and purge them on the last step to make
+# sure our final image contains only what we've just built:
+RUN set -xe \
+	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/releases/download/OTP-${OTP_VERSION}/otp_src_${OTP_VERSION}.tar.gz" \
+	&& OTP_DOWNLOAD_SHA256="ea98c87f975c12ffeb4fcb75d2b618cefea77ca02d3c2fca31a47e6d3d4db951" \
+	&& fetchDeps=' \
+		curl \
+		ca-certificates' \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends $fetchDeps \
+	&& curl -fSL -o otp-src.tar.gz "$OTP_DOWNLOAD_URL" \
+	&& echo "$OTP_DOWNLOAD_SHA256  otp-src.tar.gz" | sha256sum -c - \
+	&& runtimeDeps=' \
+		libodbc2 \
+		libssl3 \
+		libsctp1 \
+	' \
+	&& buildDeps=' \
+		autoconf \
+		dpkg-dev \
+		gcc \
+		g++ \
+		make \
+		libncurses-dev \
+		unixodbc-dev \
+		libssl-dev \
+		libsctp-dev \
+	' \
+	&& apt-get install -y --no-install-recommends $runtimeDeps \
+	&& apt-get install -y --no-install-recommends $buildDeps \
+	&& export ERL_TOP="/usr/src/otp_src_${OTP_VERSION%%@*}" \
+	&& mkdir -vp $ERL_TOP \
+	&& tar -xzf otp-src.tar.gz -C $ERL_TOP --strip-components=1 \
+	&& rm otp-src.tar.gz \
+	&& ( cd $ERL_TOP \
+	  && ./otp_build autoconf \
+	  && gnuArch="$(dpkg-architecture --query DEB_HOST_GNU_TYPE)" \
+	  && ./configure --build="$gnuArch" \
+	  && make -j$(nproc) \
+	  && make install ) \
+	&& find /usr/local -name examples | xargs rm -rf \
+	&& REBAR3_DOWNLOAD_URL="https://github.com/erlang/rebar3/archive/${REBAR3_VERSION}.tar.gz" \
+	&& REBAR3_DOWNLOAD_SHA256="a151dc4a07805490e9f217a099e597ac9774814875f55da2c66545c333fdff64" \
+	&& mkdir -p /usr/src/rebar3-src \
+	&& curl -fSL -o rebar3-src.tar.gz "$REBAR3_DOWNLOAD_URL" \
+	&& echo "$REBAR3_DOWNLOAD_SHA256 rebar3-src.tar.gz" | sha256sum -c - \
+	&& tar -xzf rebar3-src.tar.gz -C /usr/src/rebar3-src --strip-components=1 \
+	&& rm rebar3-src.tar.gz \
+	&& cd /usr/src/rebar3-src \
+	&& sed -i "s|warnings_as_errors|nowarn_deprecated_catch|g" rebar.config \
+	&& sed -i "s|{overrides, \[{|{overrides, [{override, [{erl_opts, [nowarn_deprecated_catch]}]},{|g" rebar.config \
+	&& HOME=$PWD ./bootstrap \
+	&& install -v ./rebar3 /usr/local/bin/ \
+	&& rm -rf /usr/src/rebar3-src \
+	&& apt-get purge -y --auto-remove $buildDeps $fetchDeps \
+	&& rm -rf $ERL_TOP /var/lib/apt/lists/*
+
+CMD ["erl"]
