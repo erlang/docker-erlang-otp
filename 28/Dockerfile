@@ -1,6 +1,6 @@
 FROM buildpack-deps:trixie
 
-ENV OTP_VERSION="28.3.2" \
+ENV OTP_VERSION="28.3.3" \
     REBAR3_VERSION="3.26.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.version=$OTP_VERSION
 # build process:
 RUN set -xe \
   && OTP_DOWNLOAD_URL="https://github.com/erlang/otp/releases/download/OTP-${OTP_VERSION}/otp_src_${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="36380480aed888281b8202e75449cca307102e43c4e04696cc83bd3b162991cf" \
+	&& OTP_DOWNLOAD_SHA256="641f252b12b64c89ea8ae16b6c35d8983378a588490421bf1e69cdc51cea6e65" \
 	&& runtimeDeps='libodbc2 \
 			libsctp1 \
 			libwxgtk3.2 \
