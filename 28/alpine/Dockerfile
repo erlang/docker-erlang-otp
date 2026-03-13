@@ -1,13 +1,13 @@
 FROM alpine:3.23
 
-ENV OTP_VERSION="28.4" \
+ENV OTP_VERSION="28.4.1" \
     REBAR3_VERSION="3.26.0"
 
 LABEL org.opencontainers.image.version=$OTP_VERSION
 
 RUN set -xe \
 	&& OTP_DOWNLOAD_URL="https://github.com/erlang/otp/releases/download/OTP-${OTP_VERSION}/otp_src_${OTP_VERSION}.tar.gz" \
-	&& OTP_DOWNLOAD_SHA256="5b39ceb3e36de8901dde61e88869e47be1b81bd56928da3986c196d696e1311d" \
+	&& OTP_DOWNLOAD_SHA256="fb2aa0bd8d4118a275895d4a0ea5b24e40e9e1e27a7b29e001377d7660fd9ecf" \
 	&& REBAR3_DOWNLOAD_SHA256="a151dc4a07805490e9f217a099e597ac9774814875f55da2c66545c333fdff64" \
 	&& apk add --no-cache --virtual .fetch-deps \
 		curl \
