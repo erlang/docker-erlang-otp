@@ -39,8 +39,8 @@ RUN set -xe \
 	  && make install ) \
 	&& rm -rf $ERL_TOP \
 	&& find /usr/local -regex '/usr/local/lib/erlang/\(lib/\|erts-\).*/\(man\|doc\|obj\|c_src\|emacs\|info\|examples\)' | xargs rm -rf \
-	&& find /usr/local -name src | xargs -r find | grep -v '\.hrl$' | xargs rm -v || true \
-	&& find /usr/local -name src | xargs -r find | xargs rmdir -vp || true \
+	&& { find /usr/local -name src | xargs -r find | grep -v '\.hrl$' | xargs rm -v || true; } \
+	&& { find /usr/local -name src | xargs -r find | xargs rmdir -vp || true; } \
 	&& scanelf --nobanner -E ET_EXEC -BF '%F' --recursive /usr/local | xargs -r strip --strip-all \
 	&& scanelf --nobanner -E ET_DYN -BF '%F' --recursive /usr/local | xargs -r strip --strip-unneeded \
 	&& runDeps="$( \
