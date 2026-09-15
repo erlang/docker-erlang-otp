@@ -1,4 +1,4 @@
-FROM buildpack-deps:bullseye
+FROM buildpack-deps:bookworm
 
 ENV OTP_VERSION="25.3.2.21" \
     REBAR3_VERSION="3.24.0"
@@ -13,10 +13,10 @@ RUN set -xe \
 	&& runtimeDeps='libodbc1 \
 			libsctp1 \
 			libwxgtk3.0 \
-			libwxgtk-webview3.0-gtk3-0v5' \
+			libwxgtk-webview3.2-1' \
 	&& buildDeps='unixodbc-dev \
 			libsctp-dev \
-			libwxgtk-webview3.0-gtk3-dev' \
+			libwxgtk-webview3.2-dev' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $runtimeDeps \
 	&& apt-get install -y --no-install-recommends $buildDeps \
